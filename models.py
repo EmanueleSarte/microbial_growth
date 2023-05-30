@@ -300,7 +300,7 @@ class Model1_2(GenericModel):
 #         return res
 
 
-class Model3(GenericModel):
+class Model3(GenericModel): 
     def __init__(self, a=None, b=None, c=None, d=None, m_f=None, w2=None, u=None, v=None, k=None, alpha=None):
 
         if ((a is not None) and (b is not None) and (c is not None) and (d is not None) and

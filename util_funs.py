@@ -5,6 +5,8 @@ from IPython.display import display, Math
 from os import listdir
 from os.path import isfile, join
 import pickle
+import inspect
+
 
 
 def plot_chains(samples, title, labels):
@@ -52,6 +54,19 @@ def find_initial_params(df):
 # def get_lineages_from_folder(folder_path, df_name):
 #     all_files = [f for f in listdir(folder_path) if isfile(join(folder_path, f))]
 #     return [int(f.split("_")[-1].split(".")[0]) for f in all_files if f.startswith(df_name)]
+
+def get_run_id(model_class):
+    text = ""
+    for line in inspect.getsource(model_class).split("\n"):
+        line = line.strip()
+        if "#" in line:
+            line = line[:line.index("#")]
+
+        if not line:
+            continue
+        text += line + ""
+    text = text.replace(" ", "")
+    return hash(text) % 1000000
 
 def filter_file_names(folder_path, df_name, run_id):
     all_files = [f for f in listdir(folder_path) if isfile(join(folder_path, f)) and f.endswith(".bin")]
