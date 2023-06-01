@@ -397,7 +397,7 @@ class Model3(GenericModel):
         a, b, c, d, k, m_f, alphas, w2, u, v = params
         # if 0 < w2 <= 10 and 0 < u <= 10 and 0 < v <= 25 and v > u and 0 < c < 20 and 0 < d < 20 and 0 < a < 60 and 0 < b < 1:
         # if 0 < w2  and 0 < u  and 0 < v  and 0 < c and 0 < d and 0 < a and 0 < b:
-        if 0 < w2 and 0 < u and 0 < v and v > u and 0 < c and 0 < d and 0 < a and 0 < b and u < 100 and v < 100 and w2 < 100:
+        if 0 < w2 and 0 < u and 0 < v and v > u and 0 < c and 0 < d and 0 < a and 0 < b and u < 3 and v < 5 and w2 < 100:
             return 0.0
         else:
             return -np.inf
