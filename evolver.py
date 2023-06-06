@@ -52,23 +52,26 @@ class Evolver:
         data = self.X[self.offset_start[start:stop + 1]]
         return time, data
     
-    def get_alphas(self):
-        if self.model.__class__.__name__.lower() != "model3":
-            print("Alphas are availables only on model 3")
-            return None
-        return self.params[:, 6]
+    def get_params_evolved(self):
+        return self.params
     
-    def get_kappas(self):
-        if self.model.__class__.__name__.lower() != "model3":
-            print("Kappas are availables only on model 3")
-            return None
-        return self.params[:, 4]
+    # def get_alphas(self):
+    #     if self.model.__class__.__name__.lower() != "model3":
+    #         print("Alphas are availables only on model 3")
+    #         return None
+    #     return self.params[:, 6]
     
-    def get_mfinals(self):
-        if self.model.__class__.__name__.lower() != "model3":
-            print("m finals are availables only on model 3")
-            return None
-        return self.params[:, 5]
+    # def get_kappas(self):
+    #     if self.model.__class__.__name__.lower() != "model3":
+    #         print("Kappas are availables only on model 3")
+    #         return None
+    #     return self.params[:, 4]
+    
+    # def get_mfinals(self):
+    #     if self.model.__class__.__name__.lower() != "model3":
+    #         print("m finals are availables only on model 3")
+    #         return None
+    #     return self.params[:, 5]
 
 
     def evolve(self, n_div, debug=False):
@@ -93,8 +96,8 @@ class Evolver:
                 print(self.model.params_dict)
 
             if self.params is None:
-                self.params = np.zeros(shape=(n_div, len(self.model.params_list)))
-            self.params[i, :] = np.array(self.model.params_list)
+                self.params = np.zeros(shape=(n_div, len(self.model.var_params)))
+            self.params[i, :] = np.array(self.model.var_params)
 
             test_range = np.arange(1, 40, 1)
             test_values = self.model.S(t=test_range)
