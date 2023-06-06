@@ -256,56 +256,152 @@ class Model1_2(GenericModel):
         self.m0 = new_params[0]
 
 
-# class Model2(GenericModel):
-#     def __init__(self, m0, w1, w2, u, v):
-#         self.m0 = m0
-#         self.w1 = w1
-#         self.w2 = w2
-#         self.u = u
-#         self.v = v
-#         super().__init__({"m0": m0, "w1": w1, "w2": w2, "u": u, "v": v})
+class Model2(GenericModel):
+    def __init__(self, m0=None, w1=None, w2=None, u=None, v=None):
+        fixed_labels = ["w1", "w2", "u", "v"]
+        var_labels = ["m0"]
+        if (m0 is not None) and (w1 is not None) and (w2 is not None) and (u is not None) and (v is not None):
+            self.m0 = m0
+            self.w1 = w1
+            self.w2 = w2
+            self.u = u
+            self.v = v
+            super().__init__(fixed_labels=fixed_labels, var_labels=var_labels,
+                             fixed_params=[w1, w2, u, v], variable_params=[m0])
+        else:
+            super().__init__(fixed_labels=fixed_labels, var_labels=var_labels)
 
-#     def are_params_valid(self):
-#         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
-#         return (m0 > 0) and (w1 > 0) and (w2 > 0) and (u > 0) and (v > 0) and (u < v)
+    def X(self, t):
+        m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
+        param1 = m0 * np.exp(w1 * t)
+        param2 = m0 * w2 * (np.exp(w1 * t) - 1) / w1
+        return np.column_stack([param1, param2]).reshape(-1, 2)
 
-#     def X(self, t):
-#         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
-#         param1 = m0 * np.exp(w1 * t)
-#         param2 = m0 * w2 * (np.exp(w1 * t) - 1) / w1
-#         return np.array([param1, param2])
+    # def t_star(self):
+    #     m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
+    #     return (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
 
-#     def t_star(self):
-#         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
-#         return (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
+    # def h(self, t):
+    #     m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
 
-#     def h(self, t):
-#         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
+    #     res = np.ones(shape=t.shape)
+    #     th = self.t_star()
+    #     mask = t >= th
 
-#         res = np.ones(shape=t.shape)
-#         th = self.t_star()
-#         mask = t >= th
+    #     if th > 0:
+    #         t = t - th
 
-#         if th > 0:
-#             t = t - th
+    #     res[mask] = (w2 * (self.X(t)[1, :] + v) / (u + v))[mask]
+    #     return res
 
-#         res[mask] = (w2 * (self.X(t)[1, :] + v) / (u + v))[mask]
-#         return res
+    def S(self, t):
+        m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
 
-#     def S(self, t):
-#         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
+        res = np.ones(shape=t.shape)
+        th = (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
+        mask = t >= th
 
-#         res = np.ones(shape=t.shape)
-#         th = self.t_star()
-#         mask = t >= th
+        if th > 0:
+            t = t - th
+        factor = - (w2 ** 2 * m0) / (w1 ** 2 * (u + v))
+        term1 = np.exp(w1 * t[mask]) - 1
+        term2 = w1 * t[mask] * ((v * w1) / (w2 * m0) - 1)
+        res[mask] = np.exp(factor * (term1 + term2))
+        return res
 
-#         if th > 0:
-#             t = t - th
-#         factor = - (w2 ** 2 * m0) / (w1 ** 2 * (u + v))
-#         term1 = np.exp(w1 * t[mask]) - 1
-#         term2 = w1 * t[mask] * ((v * w1)/ (w2 * m0) - 1)
-#         res[mask] = np.exp(factor * (term1 + term2))
-#         return res
+    def pdf(self, t):
+        m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
+        res = np.zeros(shape=len(t))
+        th = (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
+
+        mask = t >= th
+        t = np.where((th > 0) & mask, t - th, t)
+
+        factor = ((w2 ** 2) * m0) / ((w1 ** 2) * (u + v))
+        term1 = np.exp(w1 * t) - 1
+        term2 = w1 * t * (v * w1 / (w2 * m0) - 1)
+
+        # h = factor * (np.exp(w1 * t) * w1 + v * w1 / m0)
+        p = w2 * m0 * (np.exp(w1*t) - 1) / w1
+        h = w2 * (p + v) / (u + v)
+
+        res[mask] = (np.exp(-factor * (term1 + term2)) * h)[mask]
+        return res
+
+    # def log_pdf(self, params, life_spans, m0s):
+    #     w1, w2, u, v = params
+    #     t = life_spans
+
+    #     res = np.zeros(shape=t.shape)
+    #     th = (1 / w1) * np.log((w1 * u) / (w2 * m0s) + 1)
+    #     th = np.where(th < 0, 0, th)
+    #     mask = t >= th
+
+    #     t = t - th
+
+    #     # factor1 = -w2 * m0s * (np.exp(w1 * t) * v * w1 - 1 + w1 * t * v / m0s) / (w1 * (u + v))
+
+    #     factor = ((w2 ** 2) *  m0s) / ((w1 ** 2) * (u + v))
+    #     term1 = np.exp(w1 * t) - 1
+    #     term2 = w1 * t * (v * w1 / (w2 * m0s) - 1)
+    #     factor1 = factor * (term1 + term2)
+
+    #     factor2 = np.log(w2 * (w2 * m0s *(np.exp(w1*t) - 1) / w1 + v) / (u + v))
+    #     res[mask] = (factor1 + factor2)[mask]
+    #     return res
+
+    def log_pdf(self, params, life_spans, m0s):
+        # w1, w2, u, v = params
+        # for t, m0 in zip(life_spans, m0s):
+
+        w1, w2, u, v = params
+        t_star = (1 / w1) * np.log((w1 * u) / (w2 * m0s) + 1)  # if m0 is a vector then it's a vector
+
+        out = np.zeros(len(life_spans))
+        for i, (s, m) in enumerate(zip(life_spans, m0s)):
+            if s < t_star[i]:
+                out[i] = np.log(1e-4)
+            else:
+                factor = -(w2**2 * m) / (w1**2 * (u + v))
+                term1 = np.exp(w1 * (s - t_star[i]))
+                term2 = w1 * (s - t_star[i]) * ((v * w1) / (w2 * m) - 1)
+                term3 = -1
+                # sur = np.exp(factor * (term1 + term2 + term3))
+                sur = factor * (term1 + term2 + term3)
+                p = (w2 * m / w1) * (np.exp(w1 * (s - t_star[i])) - 1)
+                # out[i] = np.log(sur) + np.log(w2) + np.log(p + v) - np.log(u + v)
+                out[i] = sur + np.log(w2) + np.log(p + v) - np.log(u + v)
+        return out
+
+    def log_lkl(self, params, life_spans, m_zeros):
+        log_pdfs = self.log_pdf(params, life_spans, m_zeros)
+        if np.any(np.isinf(log_pdfs)):
+            print("XDZZ")
+            return -np.inf
+
+        return np.sum(log_pdfs)
+
+    def log_prior(self, params):
+        w1, w2, u, v = params
+        if w1 > 0 and w2 > 0 and v > u > 0 and 0 < v <= 30:
+            return 0.0
+        else:
+            return -np.inf
+
+    def log_prob(self, params, life_spans, m_zeros):
+        check = self.log_prior(params)
+
+        if not np.isfinite(check):
+            return -np.inf
+        else:
+            return check + self.log_lkl(params, life_spans, m_zeros)
+
+    def params_after_division(self, final_X):
+        return np.array([final_X[0] / 2])
+
+    def update_params(self, new_params):
+        super().update_params(new_params)
+        self.m0 = new_params[0]
 
 
 class Model3(GenericModel):
