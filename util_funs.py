@@ -6,7 +6,57 @@ from os import listdir
 from os.path import isfile, join
 import pickle
 import inspect
+import emcee
+import corner
+from multiprocessing import Pool
 
+
+def emcee_analysis(nwalkers, truths, log_prob_fn, args, guess, chain_lenght, labels=None, use_pool=True, discard=1000,
+                   thinning=35, plot=True, title=None):
+
+    if use_pool:
+        with Pool() as pool:
+            sampler = emcee.EnsembleSampler(nwalkers, len(truths), log_prob_fn, args=args, pool=pool)
+            sampler.run_mcmc(guess, chain_lenght, progress=True)
+    else:
+        sampler = emcee.EnsembleSampler(nwalkers, len(truths), log_prob_fn, args=args)
+        sampler.run_mcmc(guess, chain_lenght, progress=True)
+
+    samples = sampler.get_chain()
+    if plot:
+        plot_chains(samples, title=title, labels=labels)
+
+    tau = None
+    try:
+        tau = sampler.get_autocorr_time()
+        print("Auto correlation time:", tau)
+    except emcee.autocorr.AutocorrError as e:
+        print("The chain is too short to get the auto correlation time")
+
+    # if tau is not None:
+    #     thin_number = int(np.mean(tau) / 2)
+    #     print(f"The thinning is {thin_number}, calculated from the auto correlation time")
+    # else:
+    #     thin_number = 35
+    #     print(f"The thinning is {thin_number}, the default value")
+
+    flat_samples = sampler.get_chain(discard=discard, thin=thinning, flat=True)
+    print("Flat samples shape: ", flat_samples.shape)
+
+    if plot:
+        fig = corner.corner(flat_samples, labels=labels, truths=truths)
+        fig.suptitle(title)
+        plt.show()
+
+    result_dict = {}
+    for i in range(len(labels)):
+        mcmc = np.percentile(flat_samples[:, i], [16, 50, 84])
+        q = np.diff(mcmc)
+        result_dict[labels[i]] = (mcmc[1], q[0], q[1])
+
+    print_latex_result(list(result_dict.values()), labels)
+
+    return samples, flat_samples, result_dict
 
 
 def plot_chains(samples, title, labels):
@@ -67,6 +117,7 @@ def get_run_id(model_class):
         text += line + ""
     text = text.replace(" ", "")
     return hash(text) % 1000000
+
 
 def filter_file_names(folder_path, df_name, run_id):
     all_files = [f for f in listdir(folder_path) if isfile(join(folder_path, f)) and f.endswith(".bin")]
@@ -154,9 +205,10 @@ def filter_data(df, filter_cols=None, std_val=6, q=None, analyze_cols=None, show
         fdata = data[~both_mask]
 
         affected_lin = df.loc[both_mask, "lineage_ID"].unique().astype(dtype=int)
-        all_affected_lin.update(affected_lin)
         indexes = df.loc[both_mask, "lineage_ID"].index
-        all_indexes.update(indexes)
+        if col in filter_cols:
+            all_affected_lin.update(affected_lin)
+            all_indexes.update(indexes)
 
         if show:
             print(col)
