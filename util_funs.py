@@ -52,7 +52,15 @@ def emcee_analysis(nwalkers, truths, log_prob_fn, args, guess, chain_lenght, lab
     result_dict = {}
     for i in range(len(labels)):
         mcmc = np.percentile(flat_samples[:, i], [2.5, 50, 97.5])
-        mcmc[1] = stats.mode(flat_samples[:, i], keepdims = False)[0]
+        nbins = int(np.sqrt(flat_samples.shape[0]))
+        plt.ioff()
+        n, bins, _ = plt.hist(flat_samples[:, i], bins=nbins, visible = False);
+        plt.close()
+        centers = (bins[:-1] + bins[1:]) / 2
+        max_index = np.where(n == np.max(n))[0]
+        if len(max_index > 1):
+            max_index = max_index[0]
+        mcmc[1] = centers[max_index]
         q = np.diff(mcmc)
         result_dict[labels[i]] = (mcmc[1], q[0], q[1])
 

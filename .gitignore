@@ -1,6 +1,8 @@
 results/
 old_stuff/
 dataset/
+exports/
+.vscode/
 test.ipynb
 
 # Byte-compiled / optimized / DLL files
