@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.stats as stats
 import pandas as pd
 from IPython.display import display, Math
 from os import listdir
@@ -50,7 +51,8 @@ def emcee_analysis(nwalkers, truths, log_prob_fn, args, guess, chain_lenght, lab
 
     result_dict = {}
     for i in range(len(labels)):
-        mcmc = np.percentile(flat_samples[:, i], [16, 50, 84])
+        mcmc = np.percentile(flat_samples[:, i], [2.5, 50, 97.5])
+        mcmc[1] = stats.mode(flat_samples[:, i], keepdims = False)[0]
         q = np.diff(mcmc)
         result_dict[labels[i]] = (mcmc[1], q[0], q[1])
 
