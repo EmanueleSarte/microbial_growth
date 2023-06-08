@@ -2,10 +2,10 @@ from util_funs import read_files
 
 RESULTS_PATH = "./results/"
 EXPORTS_PATH = './exports/'
-RUN_ID = "682517"
+RUN_ID = "628735"
 
 lineages = []
-dataset_results_dict = read_files(RESULTS_PATH, df_name="tan", run_id=RUN_ID,lineages=lineages)
+dataset_results_dict = read_files(RESULTS_PATH, df_name="tanouchi37", run_id=RUN_ID,lineages=lineages)
 
 dataset_name = list(dataset_results_dict.keys())[0][0]
 filename = dataset_name + '_export_run_' + RUN_ID + '.csv'
