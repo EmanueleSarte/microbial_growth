@@ -32,9 +32,38 @@ Next we are going to showcase the models considered for the Bayesian inference.
 
 ### Model 1 <a name="model1"></a>
 ### Model 1.2 <a name="model1.2"></a>
+This model is a more accurate version of Model 1, since it embeds the fact that a microbe cell can divide only if a minimum size has been reached. Nevertheless, it is still a single trait model:
+
+$$\vec{x} \equiv x = m$$
+
+with the microbe size $m$ obeying
+
+$$\dot{m} = \omega_1 m$$
+
+Eq. () holds also in this case, but now
+
+$$h(m) = \begin{cases} 0 \qquad \qquad m \lt u \\
+\omega_2 \frac{m + v}{u + v} \qquad m \geq u\end{cases}$$
+
+and also the expression for $\mathcal{J}(m|m')$ remains unchanged. Eq. () leads to 
+
+$$m(t) = m_0 e ^ {\omega_1 t}$$
+
+and thus we can define the following quantity
+
+$$t^* \equiv \frac{1}{w_1} \log \Big(\frac{u}{m_0}\Big)$$
+
+which represents the amount of time elapsed since the division of the mother cell in order for $h(m)$ to become non-zero. Now we can integrate eq. (), obtaining 
+
+$$S(t) = 0 \qquad t \lt t^*$$
+
+$$S(t) = \exp \Big(- \frac{\omega_2}{\omega_1(u+v)}[e ^ {\omega_1 t} - \omega_1 v t  - 1]\Big) \qquad t \geq t^*$$
+
+
+Since $m_0$ could be smaller than $u$, then, in those cases, $t^* <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervations of this behaviours has been made on microbes. 
 
 ### Model 2 <a name="model2"></a>
-Model 2 aims at correcting the istantaneous division problem that arisen in Model 1.2. To do so we need to introduce another dynamic variable, $p$, which represents the amount of a fictious protein that needs to be accumulated over a certain threshold quantity in order to allow the division process. Thus in this case we have that
+Model 2 aims at correcting the istantaneous division problem that arises in Model 1.2. To do so we need to introduce another dynamic variable, $p$, which represents the amount of a fictious protein that needs to be accumulated over a certain threshold quantity in order to allow the division process. Thus in this case we have that
 
 $$\vec{x} = \begin{pmatrix} m \\ 
 p \end{pmatrix}$$
@@ -71,7 +100,7 @@ which is always a positive quantity. Thus by integrating (5) we get
 
 $$S(t) = 1 \qquad t \lt t^* \tag{10a}$$
 
-$$S(t) = \exp \Bigg(- \frac{\omega_2^2 m_0}{\omega_1^2 (u + v)} \[e ^ {\omega_1 t} + \omega_1 t \Big(\frac{\omega_1 v}{\omega_2 m_0} - 1\Big) - 1\]\Bigg) \qquad t \geq t^* \tag{10b}$$
+$$S(t) = \exp \Bigg(- \frac{\omega_2^2 m_0}{\omega_1^2 (u + v)} [e ^ {\omega_1 t} + \omega_1 t \Big(\frac{\omega_1 v}{\omega_2 m_0} - 1\Big) - 1]\Bigg) \qquad t \geq t^* \tag{10b}$$
 
 from which it is evident that istantaneous division is not allowed. 
 
