@@ -1,4 +1,4 @@
-# Microbial Growht :microbe: Final project of Laboratory of Computational Physics - Mod. B
+# <p style = 'text-align: center'> Microbial Growht :microbe: <br> Final project of Laboratory of Computational Physics - Mod. B </p>
 
 **Group members:** Giovanni Zago, Emanuele Sarte, Alessio Saccomani, Fateme <br>
 **Supervisor:** Prof. Carlo Albert <br>
