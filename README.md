@@ -36,19 +36,22 @@ Next we are going to showcase the models considered for the Bayesian inference.
 ### Model 2 <a name="model2"></a>
 Model 2 aims at correcting the istantaneous division problem that arisen in Model 1.2. To do so we need to introduce another dynamic variable, $p$, which represents the amount of a fictious protein that needs to be accumulated over a certain threshold quantity in order to allow the division process. Thus in this case we have that
 
-$$\vec{x} = \begin{pmatrix} m \\ p \end{pmatrix}$$
+$$\vec{x} = \begin{pmatrix} m \\ 
+p \end{pmatrix}$$
 
 and
 
-$$\dot{\vec{x}} = \begin{pmatrix} \omega_1 m \\ \omega_2 c m \end{pmatrix}\tag{3}$$
+$$\dot{\vec{x}} = \begin{pmatrix} \omega_1 m \\ 
+\omega_2 c m \end{pmatrix}\tag{3}$$
 
-where $w_1$ and $w_2$ are the growth and the protein accumulation rate respectively and $c$ represents the protein concentration, which we can set equal to 1 without losing generality. The survival probability equation becomes
+where $\omega_1$ and $\omega_2$ are the growth and the protein accumulation rate respectively and $c$ represents the protein concentration, which we can set equal to 1 without losing generality. The survival probability equation becomes
 
 $$\frac{\dot{S}(t)}{S(t)} = - h(m,p) \tag{4}$$
 
 with
 
-$$h(m,p) = \begin{cases}0 \qquad \qquad \text{for} \quad p \lt u\\ w_2 \frac{p + v}{u + v} \qquad \text{for} \quad p \geq u\end{cases} \tag{5}$$
+$$h(m,p) = \begin{cases}0 \qquad \qquad \text{for} \quad p \lt u \\ 
+\omega_2 \frac{p + v}{u + v} \qquad \text{for} \quad p \geq u\end{cases} \tag{5}$$
 
 and the division equation becomes
 
@@ -57,16 +60,18 @@ $$\mathcal{J}(m,p | m',p') = \delta(p)\delta\Big(m - \frac{m'}{2}\Big)$$
 meaning that the protein amount drops to zero at each cell division, while the microbe size after the division becomes half the one reached at the end of the previous life cycle. By integrating (3) we get
 
 $$m(t) = m_0 e ^ {w_1 t} \tag{7}$$
-$$p(t) = \frac{w_2}{w_1} m_0 (e ^ {w_1 t} - 1) \tag{8}$$
+
+$$p(t) = \frac{\omega_2}{\omega_1} m_0 (e ^ {w_1 t} - 1) \tag{8}$$
 
 Now it is clear that the condition on the value of $h(m,p)$ reporten in eq. (5) is equivalent to 
 
-$$t \geq \frac{1}{w_1} \log \Big(\frac{w_1 u}{w_2 m_0} + 1\Big) \equiv t^* \tag{9}$$
+$$t \geq \frac{1}{\omega_1} \log \Big(\frac{\omega_1 u}{\omega_2 m_0} + 1\Big) \equiv t^* \tag{9}$$
 
 which is always a positive quantity. Thus by integrating (5) we get
 
 $$S(t) = 1 \qquad t \lt t^* \tag{10a}$$
-$$S(t) = \exp{\Bigg\{- \frac{\omega_2^2 m_0}{\omega_1^2 (u + v)} \Big[e ^ {\omega_1 t} + \omega_1 t \Big(\frac{\omega_1 v}{\omega_2 m_0} - 1\Big) - 1\Big]\Bigg\}} \qquad t \geq t^* \tag{10b}$$
+
+$$S(t) = \exp \Bigg(- \frac{\omega_2^2 m_0}{\omega_1^2 (u + v)} \[e ^ {\omega_1 t} + \omega_1 t \Big(\frac{\omega_1 v}{\omega_2 m_0} - 1\Big) - 1\]\Bigg) \qquad t \geq t^* \tag{10b}$$
 
 from which it is evident that istantaneous division is not allowed. 
 
