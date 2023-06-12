@@ -132,7 +132,10 @@ $$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 t} + 
 
 from which it is evident that istantaneous division is not allowed.
 
-![image info](images/s_model2.png)
+<p align = 'center'>
+    <!-- ![image info](images/s_model2.png) -->
+    <img src = '/images/s_model2.png' />
+</p>
 
 ### Model 3 <a name="model3"></a>
 
