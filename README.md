@@ -13,6 +13,7 @@ This project has been carried out by a group of Physics of Data student as final
     3. [Model 1.2](#model1.2)
     4. [Model 2](#model2)
     4. [Model 3](#model3)
+2. [Methods](#methods)
 
 ## Introduction <a name="introduction"></a>
 
@@ -153,8 +154,9 @@ c m \\
 
 The survival probability equation remains the same as (15). So the growth rate does not vary during the lifetime of a microbe, but it may change from one cell cycle to the following. Indeed the division distribution embeds this feature, as well as a variable division factor:
 
-$$\mathcal{J}(m, p, \alpha|m', p', \alpha') = f_{\Gamma}(\alpha) \, \delta(p) \, (f_{\beta} * \delta)(m) = \\
-= f_{\Gamma}(\alpha) \, \delta(p) \, 
+$$\mathcal{J}(m, p, \alpha|m', p', \alpha') = f_{\Gamma}(\alpha) \, \delta(p) \, (f_{\beta} * \delta)(m) = $$
+
+$$ = f_{\Gamma}(\alpha) \, \delta(p) \, 
 \int \delta(m - k m') \, f_{\beta}(k) \, dk = f_{\Gamma}(\alpha) \, \delta(p) \, f_{\beta}\Big(\frac{m}{m'}\Big) \, \frac{1}{m'} \tag{22}$$
 
 From eq. (22) we see that after each cell division the a growth rate $\alpha$ is drawn from a gamma distribution independently from the growth rate of the mother cell. Furthermore, we see that also the division rate $k$ is no longer fixed at $1/2$ but it is sampled from a beta distribution, making sure that $k \in (0,1]$. By integrating the previous equations we get
@@ -172,3 +174,11 @@ and then integrate (15), obtaining
 $$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
 
 $$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
+
+## Methods <a name="methods"></a>
+
+As previously stated, our goal is use the proposed datasets to estimate the parameters of the aforementioned models exploiting Bayesian inference. In other words our target is sampling the multivariate *posterior* distribution of the parameters, given by the Bayes theorem
+
+$$f(\vec{\theta}|\{\vec{x}_i\}) \propto L(\{\vec{x}_i\}|\vec{\theta}) \, \cdot \, p(\theta)$$
+
+The tool exploited for sampling the posterior is ``emcee``, a open source python-based *Affine Invariant* Markov chain Monte Carlo (MCMC) Ensemble sampler.

@@ -321,7 +321,9 @@ class Model2(GenericModel):
     def pdf(self, t):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
         res = np.zeros(shape=len(t))
-        th = (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
+        #################################################
+        # th = (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
+        th = (1 / w1) * np.log((u / m0) + 1)
 
         mask = t >= th
         t = np.where((th > 0) & mask, t - th, t)
