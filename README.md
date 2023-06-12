@@ -43,7 +43,7 @@ In this case eq. (2) holds with
 
 $$h(m) = \omega_2 \Big(1 + \frac{m}{v}\Big) \tag{5}$$
 
-In these equations $\omega_1$ and $\omega_2$ represent two rates, so $[\omega_1] = [\omega_2] = \Bbb{T} ^ {-1}$ while $u, \, v$, with $[u] = [v] = \Bbb{L}$ represent two parameters that help the model to be more realistic. Another important feature that a model must provide is the conditional distibution that specifies how the microbe traits change after a division. In this model the distribution is
+In these equations $\omega_1$ and $\omega_2$ represent two rates (*growth rate* and *division rate* respectively), so $[\omega_1] = [\omega_2] = \Bbb{T} ^ {-1}$ while $u, \, v$, with $[u] = [v] = \Bbb{L}$ represent two parameters that help the model to be more realistic. Another important feature that a model must provide is the conditional distibution that specifies how the microbe traits change after a division. In this model the distribution is
 
 $$\mathcal{J}(m|m') = \delta \Big(m - \frac{m'}{2}\Big) \tag{6}$$
 
@@ -51,11 +51,11 @@ thus
 
 $$m_{after} = \Braket{\mathcal{J}(m|m'), m} = \int m \, \delta \Big(m - \frac{m'}{2}\Big) dm = \frac{m'}{2}$$
 
-By integrating eq. () we obtain
+By integrating eq. (4) we obtain
 
 $$m(t) = e ^ {\omega_1 t} (m_0 + u) - u \tag{7}$$
 
-that substituted in () returns
+that substituted in (5) returns
 
 $$S(t) = \exp \Bigg(\omega_2 t \Big(\frac{u}{v} - 1\Big) - \frac{\omega_2 (m_0 + u)}{w_1 u} \Big(e^{\omega_1 t} - 1\Big)\Bigg) \tag{8}$$
 
@@ -68,12 +68,12 @@ with the microbe size $m$ obeying
 
 $$\dot{m} = \omega_1 m \tag{9}$$
 
-Eq. () holds also in this case, but now
+Eq. (2) holds also in this case, but now
 
 $$h(m) = \begin{cases} 0 \qquad \qquad m \lt u \\
 \omega_2 \frac{m + v}{u + v} \qquad m \geq u\end{cases} \tag{10}$$
 
-and also the expression for $\mathcal{J}(m|m')$ remains unchanged. Eq. () leads to 
+and also the expression for $\mathcal{J}(m|m')$ remains unchanged from Model 1. Eq. (9) leads to 
 
 $$m(t) = m_0 e ^ {\omega_1 t} \tag{11}$$
 
@@ -88,7 +88,7 @@ $$S(t) = 0 \qquad t \lt t^* \tag{12a}$$
 $$S(t) = \exp \Big(- \frac{\omega_2}{\omega_1(u+v)}[e ^ {\omega_1 t} - \omega_1 v t  - 1]\Big) \qquad t \geq t^* \tag{12b}$$
 
 
-Since $m_0$ could be smaller than $u$, then, in those cases, $t^* <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervation of this behaviours has been made on microbes. 
+Since $m_0$ could be smaller than $u$, then, in those cases, $t^* <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (12b). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervations of this behaviour has been made on microbes. 
 
 ### Model 2 <a name="model2"></a>
 Model 2 aims at correcting the istantaneous division problem that arises in Model 1.2. To do so we need to introduce another dynamic variable, $p$, which represents the amount of a fictious protein that needs to be accumulated over a certain threshold quantity in order to allow the division process. Thus in this case we have that
@@ -99,9 +99,9 @@ p \end{pmatrix}$$
 and
 
 $$\dot{\vec{x}} = \begin{pmatrix} \omega_1 m \\ 
-\omega_2 c m \end{pmatrix} \tag{13}$$
+\omega_1 c m \end{pmatrix} \tag{13}$$
 
-where $\omega_1$ and $\omega_2$ are the growth and the protein accumulation rate respectively and $c$ represents the protein concentration, which we can set equal to 1 without losing generality. The survival probability equation becomes
+The growth rate $\omega_1$ is the same both for the size and the protein amount, which is a reasonable assumption. $c$ represents the protein concentration, which we can set equal to 1 without losing generality. The survival probability equation becomes
 
 $$\frac{\dot{S}(t)}{S(t)} = - h(m,p) \tag{14}$$
 
@@ -118,19 +118,21 @@ meaning that the protein amount drops to zero at each cell division, while the m
 
 $$m(t) = m_0 e ^ {w_1 t} \tag{17}$$
 
-$$p(t) = \frac{\omega_2}{\omega_1} m_0 (e ^ {w_1 t} - 1) \tag{18}$$
+$$p(t) = m_0 (e ^ {w_1 t} - 1) \tag{18}$$
 
-Now it is clear that the condition on the value of $h(m,p)$ reporten in eq. (5) is equivalent to 
+Thanks to eq. (18) we can look at eq. (15) and define
 
-$$t \geq \frac{1}{\omega_1} \log \Big(\frac{\omega_1 u}{\omega_2 m_0} + 1\Big) \equiv t^* \tag{19}$$
+$$t^* \equiv \frac{1}{\omega_1} \log \Big(\frac{u}{m_0} + 1\Big) \tag{19}$$
 
 which is always a positive quantity. Thus by integrating (15) we get
 
 $$S(t) = 1 \qquad t \lt t^* \tag{20a}$$
 
-$$S(t) = \exp \Bigg(- \frac{\omega_2^2 m_0}{\omega_1^2 (u + v)} [e ^ {\omega_1 t} + \omega_1 t \Big(\frac{\omega_1 v}{\omega_2 m_0} - 1\Big) - 1]\Bigg) \qquad t \geq t^* \tag{20b}$$
+$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 t} + \omega_1 t \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq t^* \tag{20b}$$
 
-from which it is evident that istantaneous division is not allowed. 
+from which it is evident that istantaneous division is not allowed.
+
+![image info](images/s_model2.png)
 
 ### Model 3 <a name="model3"></a>
 
@@ -148,4 +150,22 @@ c m \\
 
 The survival probability equation remains the same as (15). So the growth rate does not vary during the lifetime of a microbe, but it may change from one cell cycle to the following. Indeed the division distribution embeds this feature, as well as a variable division factor:
 
-$$\mathcal{J}(m, p, \alpha|m', p', \alpha')$$
+$$\mathcal{J}(m, p, \alpha|m', p', \alpha') = f_{\Gamma}(\alpha) \, \delta(p) \, (f_{\beta} * \delta)(m) = \\
+= f_{\Gamma}(\alpha) \, \delta(p) \, 
+\int \delta(m - k m') \, f_{\beta}(k) \, dk = f_{\Gamma}(\alpha) \, \delta(p) \, f_{\beta}\Big(\frac{m}{m'}\Big) \, \frac{1}{m'} \tag{22}$$
+
+From eq. (22) we see that after each cell division the a growth rate $\alpha$ is drawn from a gamma distribution independently from the growth rate of the mother cell. Furthermore, we see that also the division rate $k$ is no longer fixed at $1/2$ but it is sampled from a beta distribution, making sure that $k \in (0,1]$. By integrating the previous equations we get
+
+$$m(t) = m_0 e ^ {\alpha t} \tag{23}$$
+
+$$p(t) = m_0 \big(e ^ {\alpha t} - 1\big) \tag{24}$$
+
+As before, by looking at eq. (15), we can define
+
+$$t ^ * \equiv \frac{1}{\alpha} \log\Big(\frac{u}{m_0} + 1\Big) \tag{25}$$
+
+and then integrate (15), obtaining
+
+$$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
+
+$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
