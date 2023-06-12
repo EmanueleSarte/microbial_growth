@@ -274,7 +274,9 @@ class Model2(GenericModel):
     def X(self, t):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
         param1 = m0 * np.exp(w1 * t)
-        param2 = m0 * w2 * (np.exp(w1 * t) - 1) / w1
+        ##############################################
+        # param2 = m0 * w2 * (np.exp(w1 * t) - 1) / w1
+        param2 = m0 * (np.exp(w1 * t) - 1)
         return np.column_stack([param1, param2]).reshape(-1, 2)
 
     # def t_star(self):
@@ -298,14 +300,21 @@ class Model2(GenericModel):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
 
         res = np.ones(shape=t.shape)
-        th = (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
+        #################################################
+        # th = (1 / w1) * np.log((w1 * u) / (w2 * m0) + 1)
+        th = (1 / w1) * np.log((u / m0) + 1)
         mask = t >= th
 
         if th > 0:
             t = t - th
-        factor = - (w2 ** 2 * m0) / (w1 ** 2 * (u + v))
+        #################################################
+        # factor = - (w2 ** 2 * m0) / (w1 ** 2 * (u + v))
+        # term1 = np.exp(w1 * t[mask]) - 1
+        # term2 = w1 * t[mask] * ((v * w1) / (w2 * m0) - 1)
+        # res[mask] = np.exp(factor * (term1 + term2))
+        factor = - (w2 * m0) / (w1 * (u + v))
         term1 = np.exp(w1 * t[mask]) - 1
-        term2 = w1 * t[mask] * ((v * w1) / (w2 * m0) - 1)
+        term2 = w1 * t[mask] * ((v / m0) - 1)
         res[mask] = np.exp(factor * (term1 + term2))
         return res
 
@@ -317,15 +326,23 @@ class Model2(GenericModel):
         mask = t >= th
         t = np.where((th > 0) & mask, t - th, t)
 
-        factor = ((w2 ** 2) * m0) / ((w1 ** 2) * (u + v))
+        ################################################
+        # factor = ((w2 ** 2) * m0) / ((w1 ** 2) * (u + v))
+        # term1 = np.exp(w1 * t) - 1
+        # term2 = w1 * t * (v * w1 / (w2 * m0) - 1)
+        factor = - (w2 * m0) / (w1 * (u + v))
         term1 = np.exp(w1 * t) - 1
-        term2 = w1 * t * (v * w1 / (w2 * m0) - 1)
+        term2 = w1 * t * ((v / m0) - 1)
 
         # h = factor * (np.exp(w1 * t) * w1 + v * w1 / m0)
-        p = w2 * m0 * (np.exp(w1*t) - 1) / w1
+        #######################################
+        # p = w2 * m0 * (np.exp(w1*t) - 1) / w1
+        p = m0 * (np.exp(w1 * t) - 1)
         h = w2 * (p + v) / (u + v)
 
-        res[mask] = (np.exp(-factor * (term1 + term2)) * h)[mask]
+        ##########################################################
+        # res[mask] = (np.exp(-factor * (term1 + term2)) * h)[mask]
+        res[mask] = (np.exp(factor * (term1 + term2)) * h)[mask]
         return res
 
     # def log_pdf(self, params, life_spans, m0s):
@@ -362,15 +379,24 @@ class Model2(GenericModel):
             if s < t_star[i]:
                 out[i] = np.log(1e-4)
             else:
-                factor = -(w2**2 * m) / (w1**2 * (u + v))
-                term1 = np.exp(w1 * (s - t_star[i]))
-                term2 = w1 * (s - t_star[i]) * ((v * w1) / (w2 * m) - 1)
-                term3 = -1
-                # sur = np.exp(factor * (term1 + term2 + term3))
-                sur = factor * (term1 + term2 + term3)
-                p = (w2 * m / w1) * (np.exp(w1 * (s - t_star[i])) - 1)
-                # out[i] = np.log(sur) + np.log(w2) + np.log(p + v) - np.log(u + v)
-                out[i] = sur + np.log(w2) + np.log(p + v) - np.log(u + v)
+                ###############################################################
+                # factor = -(w2**2 * m) / (w1**2 * (u + v))
+                # term1 = np.exp(w1 * (s - t_star[i]))
+                # term2 = w1 * (s - t_star[i]) * ((v * w1) / (w2 * m) - 1)
+                # term3 = -1
+                # # sur = np.exp(factor * (term1 + term2 + term3))
+                # sur = factor * (term1 + term2 + term3)
+                # p = (w2 * m / w1) * (np.exp(w1 * (s - t_star[i])) - 1)
+                # # out[i] = np.log(sur) + np.log(w2) + np.log(p + v) - np.log(u + v)
+                # out[i] = sur + np.log(w2) + np.log(p + v) - np.log(u + v)
+                add1 = np.log(w2 / (u + v))
+                factor = - (w2 * m) / (w1 * (u + v))
+                term1 = np.exp(w1 * (s - t_star[i])) - 1
+                term2 = w1 * (s - t_star[i]) * ((v / m) - 1)
+                add2 = factor * (term1 + term2)
+                add3 = np.log(v + m * (np.exp(w1 * (s - t_star[i])) - 1))
+                out[i] = add1 + add2 + add3
+                
         return out
 
     def log_lkl(self, params, life_spans, m_zeros):
