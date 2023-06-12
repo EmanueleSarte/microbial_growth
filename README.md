@@ -130,11 +130,11 @@ $$S(t) = 1 \qquad t \lt t^* \tag{20a}$$
 
 $$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 t} + \omega_1 t \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq t^* \tag{20b}$$
 
-from which it is evident that istantaneous division is not allowed.
+from which it is evident that istantaneous division is not allowed. Next we report the plots of $S(t)$ and $\dot{S}(t)$ with example parameter values inferred from data.
 
 <p align = 'center'>
     <!-- ![image info](images/s_model2.png) -->
-    <img src = '/images/s_model2.png' />
+    <img src = '/images/model2.png' />
 </p>
 
 ### Model 3 <a name="model3"></a>
