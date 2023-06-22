@@ -102,49 +102,64 @@ class Model1_1(GenericModel):
         else:
             super().__init__(fixed_labels=fixed_labels, var_labels=var_labels)
 
-
     def X(self, t):
         value = (self.m0 + self.u) * np.exp(self.w1 * t) - self.u
         return value.reshape(-1, 1)
 
-    def S(self, t, params=None):
+    def S(self, t):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
 
         term1 = w2 * (u/v - 1) * t
         term2 = w2 * (m0 + u)/(w1*v) * (np.exp(w1 * t) - 1)
-        res = np.ones(shape=t.shape) * np.exp(term1 - term2)
+        res = np.exp(term1 - term2)
         return res
 
-    def S_deriv(self, t, params=None, m0=None):
-        w1, w2, u, v = params if params is not None else (self.w1, self.w2, self.u, self.v)
-        m0 = m0 if m0 is not None else self.m0
+    # def S_deriv(self, t):
+    #     m0, w1, w2, u, v =     self.m0, self.w1, self.w2, self.u, self.v
 
+    #     term1 = w2 * (u/v - 1) * t
+    #     term2 = w2 * (m0 + u)/(w1*v) * (np.exp(w1 * t) - 1)
+    #     res = np.exp(term1 - term2) * (w2 * (u/v - 1) - w2 * (m0 + u) * np.exp(w1*t) / v)
+    #     return res
+
+    def pdf(self, t):
+        m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
         term1 = w2 * (u/v - 1) * t
         term2 = w2 * (m0 + u)/(w1*v) * (np.exp(w1 * t) - 1)
-        res = np.exp(term1 - term2) * (w2 * (u/v - 1) - w2 * (m0 + u) * np.exp(w1*t) / v)
-        return res
-
-    def pdf(self, t, params=None, m0=None):
-        w1, w2, u, v = params if params is not None else (self.w1, self.w2, self.u, self.v)
-        m0 = m0 if m0 is not None else self.m0
-        term1 = w2 * (u/v - 1) * t
-        term2 = w2 * (m0 + u)/(w1*v) * (np.exp(w1 * t) - 1)
-        out = -np.exp(term1 - term2) * (w2 * (u/v - 1) - w2 * (m0 + u) * np.exp(w1*t) / v)
-        out[out == 0] = 1e-300
+        h = w2 * (1 + m0 / v)
+        out = np.exp(term1 - term2) * h
+        # out[out == 0] = 1e-300
         return out
 
-    def params_after_division(self, final_X):
-        m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
-        return np.array([final_X[0] / 2, w1, w2, u, v])
+    def log_pdf(self, params, life_spans, m0s):
+        # w1, w2, u, v = params
+        # for t, m0 in zip(life_spans, m0s):
 
-    def update_params(self, new_params):
-        self.m0, self.w1, self.w2, self.u, self.v = new_params
-        self.params_dict = {k: new_params[i] for i, k in enumerate(self.params_dict.keys())}
-        self.params_list = list(new_params)
+        w1, w2, u, v = params
 
-    def log_lkl(self, params, spans, m_zeros):
-        res = np.log(self.pdf(params, spans, m_zeros))
-        return np.sum(res)
+        out = np.zeros(len(life_spans))
+        for i, (t, m) in enumerate(zip(life_spans, m0s)):
+            term1 = w2 * (u/v - 1) * t
+            term2 = w2 * (m + u)/(w1*v) * (np.exp(w1 * t) - 1)
+            h = w2 * (1 + m / v)
+
+            value1 = term1 - term2
+            # value2 = np.log((w2 * (u/v - 1) - w2 * (m + u) * np.exp(w1*t) / v))
+            value2 = np.log(h)
+
+            out[i] = value1 + value2
+
+        return out
+
+    def log_lkl(self, params, life_spans, m_zeros):
+        log_pdfs = self.log_pdf(params, life_spans, m_zeros)
+        if 0 in log_pdfs:
+            print("AHHHH")
+        # if np.any(np.isinf(log_pdfs)):
+        #     print("XDZZ")
+        #     return -np.inf
+
+        return np.sum(log_pdfs)
 
     def log_prior(self, params):
         w1, w2, u, v = params
@@ -159,7 +174,7 @@ class Model1_1(GenericModel):
             return -np.inf
         else:
             return check + self.log_lkl(params, spans, m_zeros)
-    
+
     def params_after_division(self, final_X):
         return np.array([final_X[0] / 2])
 
@@ -412,7 +427,7 @@ class Model2(GenericModel):
                 add2 = factor * (term1 + term2)
                 add3 = np.log(v + m * (np.exp(w1 * (s - t_star[i])) - 1))
                 out[i] = add1 + add2 + add3
-                
+
         return out
 
     def log_lkl(self, params, life_spans, m_zeros):
