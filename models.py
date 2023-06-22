@@ -87,18 +87,25 @@ class GenericModel:
         return " ".join([f"{k}={v:.3g}" for k, v in params_list])
 
 
-class Model1_1:
-    def __init__(self, m0, w1, w2, u, v):
-        self.initial_m0 = m0
+class Model1_1(GenericModel):
+    def __init__(self, m0=None, w1=None, w2=None, u=None, v=None):
+        fixed_labels = ["w1", "w2", "u", "v"]
+        var_labels = ["m0"]
+        if (m0 is not None) and (w1 is not None) and (w2 is not None) and (u is not None) and (v is not None):
+            self.m0 = m0
+            self.w1 = w1
+            self.w2 = w2
+            self.u = u
+            self.v = v
+            super().__init__(fixed_labels=fixed_labels, var_labels=var_labels,
+                             fixed_params=[w1, w2, u, v], variable_params=[m0])
+        else:
+            super().__init__(fixed_labels=fixed_labels, var_labels=var_labels)
 
-        self.m0 = m0
-        self.w1 = w1
-        self.w2 = w2
-        self.u = u
-        self.v = v
 
     def X(self, t):
-        return (self.m0 + self.u) * np.exp(self.w1 * t) - self.u
+        value = (self.m0 + self.u) * np.exp(self.w1 * t) - self.u
+        return value.reshape(-1, 1)
 
     def S(self, t, params=None):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
@@ -152,6 +159,13 @@ class Model1_1:
             return -np.inf
         else:
             return check + self.log_lkl(params, spans, m_zeros)
+    
+    def params_after_division(self, final_X):
+        return np.array([final_X[0] / 2])
+
+    def update_params(self, new_params):
+        super().update_params(new_params)
+        self.m0 = new_params[0]
 
 
 class Model1_2(GenericModel):
