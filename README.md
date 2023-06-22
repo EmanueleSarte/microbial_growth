@@ -159,7 +159,7 @@ $$\mathcal{J}(m, p, \alpha|m', p', \alpha') = f_{\Gamma}(\alpha) \, \delta(p) \,
 $$ = f_{\Gamma}(\alpha) \, \delta(p) \, 
 \int \delta(m - k m') \, f_{\beta}(k) \, dk = f_{\Gamma}(\alpha) \, \delta(p) \, f_{\beta}\Big(\frac{m}{m'}\Big) \, \frac{1}{m'} \tag{22}$$
 
-From eq. (22) we see that after each cell division the a growth rate $\alpha$ is drawn from a gamma distribution independently from the growth rate of the mother cell. Furthermore, we see that also the division rate $k$ is no longer fixed at $1/2$ but it is sampled from a beta distribution, making sure that $k \in (0,1]$. By integrating the previous equations we get
+From eq. (22) we see that after each cell division the a growth rate $\alpha$ is drawn from a gamma distribution independently from the growth rate of the mother cell. Furthermore, we see that also the division rate $k$ is no longer fixed at $1/2$ but it is sampled from a beta distribution, making sure that $k \in (0,1)$. By integrating the previous equations we get
 
 $$m(t) = m_0 e ^ {\alpha t} \tag{23}$$
 
@@ -175,6 +175,12 @@ $$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
 
 $$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
 
+The resulting PDF for the division time is:
+$$PDF(t) = -\frac{dS}{dt}  \tag{27a}$$
+
+$$PDF(t) = 0 \qquad t \lt t^* \tag{27b}$$
+
+$$PDF(t) = \frac{\omega_2\alpha(v - m_0 + m_0 \exp{\alpha(t-t^*)})}{\alpha(u+v)}\cdot \exp\frac{\omega_2\cdot(m_0-m_0\exp{\alpha(t-t^*)}+m_0\alpha(t-t^*)-v\alpha(t-t^*))}{\alpha(u+v)}  \tag{27c}$$
 ## Methods <a name="methods"></a>
 
 As previously stated, our goal is use the proposed datasets to estimate the parameters of the aforementioned models exploiting Bayesian inference. In other words our target is sampling the multivariate *posterior* distribution of the parameters, given by the Bayes theorem
