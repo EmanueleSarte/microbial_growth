@@ -197,7 +197,7 @@ $$ = f(\tau|\alpha, k, u, v, \omega_2) \cdot f_{\Gamma}(a,b) \cdot f_{\beta}(c,d
 
 The posterior, used to sampling with emcee, is then:
 
-$$  P(\theta|\tau,k,\alpha) \propto LKL \cdot P(\theta) \tag{28c} $$ 
+$$  P(\theta|\tau,k,\alpha) \propto LKL(\tau,\alpha,k) \cdot P(\theta) \tag{28c} $$ 
 
 ## Methods <a name="methods"></a>
 
