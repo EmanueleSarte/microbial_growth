@@ -90,7 +90,7 @@ def print_latex_result(data, labels):
         display(Math(txt))
 
 
-def find_initial_params(df):
+def find_initial_params(df, model = 3):
     # a and b guesses for alphas gamma dist
     mean_gamma = np.mean(df['growth_rate'])
     mean_log_gamma = np.mean(np.log(df['growth_rate']))
@@ -108,7 +108,12 @@ def find_initial_params(df):
     w2_guess = 1 / np.mean(df['generationtime'])
     u_guess = np.quantile(df['length_birth'], 0.25)
     v_guess = np.quantile(df['length_final'], 0.25)
-    return a_guess, b_guess, c_guess, d_guess, w2_guess, u_guess, v_guess
+
+    if (model == 2):
+        w1_guess = mean_gamma
+        return w1_guess, w2_guess, u_guess, v_guess
+    else:
+        return a_guess, b_guess, c_guess, d_guess, w2_guess, u_guess, v_guess
 
 
 # def get_lineages_from_folder(folder_path, df_name):
@@ -136,6 +141,9 @@ def filter_file_names(folder_path, df_name, run_id):
     run_id = int(run_id)
     for filename in all_files:
         pieces = filename.split("_")
+
+        if len(pieces) > 5: 
+            continue
         if not pieces[0].startswith(df_name):
             continue
 
