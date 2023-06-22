@@ -176,13 +176,13 @@ $$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
 $$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
 
 The resulting PDF for the division time is:
-$$PDF(t) = -\frac{dS}{dt}  \tag{27a}$$
+$$f(t) = -\frac{dS}{dt}  \tag{27a}$$
 
 $$\tau = t-t^*  \tag{27b}$$
 
-$$PDF(t) = 0 \qquad t \lt t^* \tag{27c}$$
+$$f(\tau) = 0 \qquad \tau \lt 0 \tag{27c}$$
 
-$$PDF(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp{\frac{\omega_2\cdot(m_0-m_0e^{alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}  \tag{27d}$$
+$$f(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp{\frac{\omega_2\cdot(m_0-m_0e^{\alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}  \tag{27d}$$
 
 ## Methods <a name="methods"></a>
 
