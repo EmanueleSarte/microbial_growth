@@ -182,7 +182,7 @@ $$\tau = t-t^*  \tag{27b}$$
 
 $$PDF(t) = 0 \qquad t \lt t^* \tag{27c}$$
 
-$$PDF(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 \exp{\alpha\tau})}{\alpha(u+v)}\cdot \exp{\frac{\omega_2\cdot(m_0-m_0\exp\alpha\tau+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}  \tag{27d}$$
+$$PDF(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp{\frac{\omega_2\cdot(m_0-m_0e^{alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}  \tag{27d}$$
 
 ## Methods <a name="methods"></a>
 
