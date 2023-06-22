@@ -1,6 +1,6 @@
 # <p style = 'text-align: center'> Microbial Growht :microbe: <br> Final project of Laboratory of Computational Physics - Mod. B </p>
 
-**Group members:** Giovanni Zago, Emanuele Sarte, Alessio Saccomani, Fateme <br>
+**Group members:** Giovanni Zago, Emanuele Sarte, Alessio Saccomani, Fateme Baghaei Saryazdi <br>
 **Supervisor:** Prof. Carlo Albert <br>
 **Academic year:** 2022/2023
 
