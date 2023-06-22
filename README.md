@@ -185,11 +185,11 @@ $$f(\tau) = 0 \qquad \tau \lt 0 \tag{27c}$$
 $$f(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp\bigg({\frac{\omega_2(m_0-m_0e^{\alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}\bigg)  \tag{27d}$$
 
 Priors for the parameters:
-$$P(\theta) = P(a, b, c, d, u, v, \omega_2, m_0)  \tag{28a}$$
+$$ P(\theta) = P(a, b, c, d, u, v, \omega_2, m_0)  \tag{28a}$$
 
 The likelihood is:
 
-$$LKL(\tau,k,\alpha|\theta) = f(\tau|\alpha, k, theta)\cdot f(\alpha|\tau, k, \theta)\cdot f(k|\tau, \alpha, \theta) =
+$$ LKL(\tau,k,\alpha|\theta) = f(\tau|\alpha, k, theta) \cdot f(\alpha|\tau, k, \theta) \cdot f(k|\tau, \alpha, \theta) =  $$
 
 $$ = f(\tau|\alpha, k, u, v, \omega_2) \cdot f_{Gamma}(a,b) \cdot f_{beta}(c,d) \tag{28b}$$
 
