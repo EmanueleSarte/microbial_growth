@@ -156,8 +156,8 @@ The survival probability equation remains the same as (15). So the growth rate d
 
 $$\mathcal{J}(m, p, \alpha|m', p', \alpha') = f_{\Gamma}(\alpha) \, \delta(p) \, (f_{\beta} * \delta)(m) = $$
 
-$$ = f_{\Gamma}(\alpha) \, \delta(p) \, 
-\int \delta(m - k m') \, f_{\beta}(k) \, dk = f_{\Gamma}(\alpha) \, \delta(p) \, f_{\beta}\Big(\frac{m}{m'}\Big) \, \frac{1}{m'} \tag{22}$$
+$$ = f_{\Gamma}(\alpha)  \delta(p) 
+\int \delta(m - k m') f_{\beta}(k)  dk = f_{\Gamma}(\alpha) \delta(p) f_{\beta}\Big(\frac{m}{m'}\Big) \frac{1}{m'} \tag{22}$$
 
 From eq. (22) we see that after each cell division the a growth rate $\alpha$ is drawn from a gamma distribution independently from the growth rate of the mother cell. Furthermore, we see that also the division rate $k$ is no longer fixed at $1/2$ but it is sampled from a beta distribution, making sure that $k \in (0,1]$. By integrating the previous equations we get
 
@@ -179,6 +179,6 @@ $$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\bi
 
 As previously stated, our goal is use the proposed datasets to estimate the parameters of the aforementioned models exploiting Bayesian inference. In other words our target is sampling the multivariate *posterior* distribution of the parameters, given by the Bayes theorem
 
-$$f(\vec{\theta}|\{\vec{x}_i\}) \propto L(\{\vec{x}_i\}|\vec{\theta}) \, \cdot \, p(\theta)$$
+$$f(\vec{\theta}|\{\vec{x}_i\}) \propto P(\{\vec{x}_i\}|\vec{\theta}) \, \cdot \, p(\theta)$$
 
-The tool exploited for sampling the posterior is ``emcee``, a open source python-based *Affine Invariant* Markov chain Monte Carlo (MCMC) Ensemble sampler.
+The tool exploited for sampling the posterior is  [``emcee``](https://emcee.readthedocs.io/en/stable/), a open source python-based *Affine Invariant* Markov chain Monte Carlo (MCMC) Ensemble sampler.
