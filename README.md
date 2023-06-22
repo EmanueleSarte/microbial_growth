@@ -159,7 +159,7 @@ $$\mathcal{J}(m, p, \alpha|m', p', \alpha') = f_{\Gamma}(\alpha) \, \delta(p) \,
 $$ = f_{\Gamma}(\alpha)  \delta(p) 
 \int \delta(m - k m') f_{\beta}(k)  dk = f_{\Gamma}(\alpha) \delta(p) f_{\beta}\Big(\frac{m}{m'}\Big) \frac{1}{m'} \tag{22}$$
 
-From eq. (22) we see that after each cell division the a growth rate $\alpha$ is drawn from a gamma distribution independently from the growth rate of the mother cell. Furthermore, we see that also the division rate $k$ is no longer fixed at $1/2$ but it is sampled from a beta distribution, making sure that $k \in (0,1]$. By integrating the previous equations we get
+From eq. (22) we see that after each cell division the a growth rate $\alpha$ is drawn from a gamma distribution independently from the growth rate of the mother cell. Furthermore, we see that also the division rate $k$ is no longer fixed at $1/2$ but it is sampled from a beta distribution, making sure that $k \in (0,1)$. By integrating the previous equations we get
 
 $$m(t) = m_0 e ^ {\alpha t} \tag{23}$$
 
@@ -174,6 +174,30 @@ and then integrate (15), obtaining
 $$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
 
 $$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
+
+The resulting PDF for the division time is:
+
+$$f(t) = -\frac{dS}{dt}  \tag{27a}$$
+
+$$\tau = t-t^*  \tag{27b}$$
+
+$$f(\tau) = 0 \qquad \tau \lt 0 \tag{27c}$$
+
+$$f(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp\bigg({\frac{\omega_2(m_0-m_0e^{\alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}\bigg)  \tag{27d}$$
+
+Priors for the parameters:
+
+$$ P(\theta) = P(a, b, c, d, u, v, \omega_2, m_0) \tag{28a}$$
+
+The likelihood is:
+
+$$ LKL(\tau,k,\alpha|\theta) = f(\tau|\alpha, k, \theta) \cdot f(\alpha|\tau, k, \theta) \cdot f(k|\tau, \alpha, \theta) =  $$
+
+$$ = f(\tau|\alpha, k, u, v, \omega_2) \cdot f_{\Gamma}(a,b) \cdot f_{\beta}(c,d) \tag{28b} $$
+
+The posterior, used to sampling with emcee, is then:
+
+$$  P(\theta|\tau,k,\alpha) \propto LKL(\tau,\alpha,k) \cdot P(\theta) \tag{28c} $$ 
 
 ## Methods <a name="methods"></a>
 
