@@ -182,7 +182,7 @@ $$\tau = t-t^*  \tag{27b}$$
 
 $$f(\tau) = 0 \qquad \tau \lt 0 \tag{27c}$$
 
-$$f(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp\bigg({\frac{\omega_2(m_0-m_0e^{\alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}})  \tag{27d}$$
+$$f(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp\bigg({\frac{\omega_2(m_0-m_0e^{\alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}\bigg)  \tag{27d}$$
 
 ## Methods <a name="methods"></a>
 
