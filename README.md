@@ -177,13 +177,13 @@ $$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\bi
 
 The resulting PDF for the division time is:
 
-$$f(t) = -\frac{dS}{dt}  \tag{27a}$$
+$$PDF(t) = -\frac{dS}{dt}  \tag{27a}$$
 
 $$\tau = t-t^*  \tag{27b}$$
 
-$$f(\tau) = 0 \qquad \tau \lt 0 \tag{27c}$$
+$$PDF(\tau) = 0 \qquad \tau \lt 0 \tag{27c}$$
 
-$$f(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp\bigg({\frac{\omega_2(m_0-m_0e^{\alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}\bigg)  \tag{27d}$$
+$$PDF(\tau) = \frac{\omega_2\alpha(v - m_0 + m_0 e^{\alpha\tau})}{\alpha(u+v)}\cdot \exp\bigg({\frac{\omega_2(m_0-m_0e^{\alpha\tau}+m_0\alpha\tau-v\alpha\tau)}{\alpha(u+v)}}\bigg)  \tag{27d}$$
 
 Priors for the parameters:
 
