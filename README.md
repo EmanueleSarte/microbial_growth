@@ -191,7 +191,7 @@ The likelihood is:
 
 $$ LKL(\tau,k,\alpha|\theta) = f(\tau|\alpha, k, theta) \cdot f(\alpha|\tau, k, \theta) \cdot f(k|\tau, \alpha, \theta) =  $$
 
-$$ = f(\tau|\alpha, k, u, v, \omega_2) \cdot f_{Gamma}(a,b) \cdot f_{beta}(c,d) \tag{28b}$$
+$$ = f(\tau|\alpha, k, u, v, \omega_2) \cdot f_{\Gamma}(a,b) \cdot f_{\beta}(c,d) \tag{28b}$$
 
 The posterior, used to sampling with emcee, is then:
 
