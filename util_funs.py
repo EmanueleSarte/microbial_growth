@@ -90,7 +90,7 @@ def print_latex_result(data, labels):
         display(Math(txt))
 
 
-def find_initial_params(df, model = 3):
+def find_initial_params(df, model_name):
     # a and b guesses for alphas gamma dist
     mean_gamma = np.mean(df['growth_rate'])
     mean_log_gamma = np.mean(np.log(df['growth_rate']))
@@ -109,11 +109,13 @@ def find_initial_params(df, model = 3):
     u_guess = np.quantile(df['length_birth'], 0.25)
     v_guess = np.quantile(df['length_final'], 0.25)
 
-    if (model == 2):
+    if (model_name in ["Model1_1", "Model1_2", "Model2"]):
         w1_guess = mean_gamma
         return w1_guess, w2_guess, u_guess, v_guess
-    else:
+    elif (model_name == "Model3"):
         return a_guess, b_guess, c_guess, d_guess, w2_guess, u_guess, v_guess
+    else:
+        raise ValueError(f"Wrong model name: {model_name}")
 
 
 # def get_lineages_from_folder(folder_path, df_name):
