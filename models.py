@@ -110,7 +110,7 @@ class Model1_1(GenericModel):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
 
         term1 = w2 * (u/v - 1) * t
-        term2 = w2 * (m0 + u)/(w1*v) * (np.exp(w1 * t) - 1)
+        term2 = w2 * ((m0 + u)/(w1*v)) * (np.exp(w1 * t) - 1)
         res = np.exp(term1 - term2)
         return res
 
@@ -125,9 +125,9 @@ class Model1_1(GenericModel):
     def pdf(self, t):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
         term1 = w2 * (u/v - 1) * t
-        term2 = w2 * (m0 + u)/(w1*v) * (np.exp(w1 * t) - 1)
-        h = w2 * (1 + m0 / v)
-        out = np.exp(term1 - term2) * h
+        term2 = w2 * ((m0 + u)/(w1*v)) * (np.exp(w1 * t) - 1)
+        h = w2 * (1 + (np.exp(w1 * t) * (m0 + u) - u)/v)
+        out = (np.exp(term1 - term2)) * (-h)
         # out[out == 0] = 1e-300
         return out
 
@@ -140,8 +140,8 @@ class Model1_1(GenericModel):
         out = np.zeros(len(life_spans))
         for i, (t, m) in enumerate(zip(life_spans, m0s)):
             term1 = w2 * (u/v - 1) * t
-            term2 = w2 * (m + u)/(w1*v) * (np.exp(w1 * t) - 1)
-            h = w2 * (1 + m / v)
+            term2 = w2 * ((m + u)/(w1*v)) * (np.exp(w1 * t) - 1)
+            h = w2 * (1 + (np.exp(w1 * t) * (m0 + u) - u)/v)
 
             value1 = term1 - term2
             # value2 = np.log((w2 * (u/v - 1) - w2 * (m + u) * np.exp(w1*t) / v))
