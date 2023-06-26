@@ -141,7 +141,7 @@ class Model1_1(GenericModel):
         for i, (t, m) in enumerate(zip(life_spans, m0s)):
             term1 = w2 * (u/v - 1) * t
             term2 = w2 * ((m + u)/(w1*v)) * (np.exp(w1 * t) - 1)
-            h = w2 * (1 + (np.exp(w1 * t) * (m0 + u) - u)/v)
+            h = w2 * (1 + (np.exp(w1 * t) * (m + u) - u)/v)
 
             value1 = term1 - term2
             # value2 = np.log((w2 * (u/v - 1) - w2 * (m + u) * np.exp(w1*t) / v))
