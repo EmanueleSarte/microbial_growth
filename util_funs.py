@@ -144,15 +144,15 @@ def filter_file_names(folder_path, df_name, run_id):
     for filename in all_files:
         pieces = filename.split("_")
 
-        if len(pieces) > 5: 
+        if len(pieces) < 6: 
             continue
         if not pieces[0].startswith(df_name):
             continue
 
-        if run_id != int(pieces[2]):
+        if run_id != int(pieces[3]):
             continue
 
-        filtered_dict[filename] = (pieces[0], int(pieces[2]), int(pieces[4].split(".")[0]))
+        filtered_dict[filename] = (pieces[0], int(pieces[3]), int(pieces[5].split(".")[0]))
 
     return filtered_dict
 

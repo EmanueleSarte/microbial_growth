@@ -239,9 +239,15 @@ We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\th
 
 For model 2 we get:
 
-$$p(t|\vec{\theta}) = 0 \qquad t \lt t^* \tag{20a}$$
+$$p(t|\vec{\theta}) = 0 \qquad t \lt t^*$$
 
 $$p(t|\vec{\theta}) = \frac{\omega_2 m_0}{\omega_1 (u + v)} \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 (t - t^*)} + \omega_1 (t - t^*) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \cdot \\
-\cdot \bigg(\omega_1 \exp[\omega_1 (t - t^*)] + \omega_1 \Big(\frac{v}{m_0} - 1\Big)\bigg)\qquad t \geq t^* \tag{20b}$$
+\cdot \bigg(\omega_1 \exp[\omega_1 (t - t^*)] + \omega_1 \Big(\frac{v}{m_0} - 1\Big)\bigg)\qquad t \geq t^*$$
 
-When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate
+When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
+
+$$p(t,\alpha, k|\vec{\theta}) =  p(t|\alpha, k, \vec{\theta}) \cdot p(k|\vec{\theta}) \cdot p(\alpha|\vec{\theta}) =  $$
+
+$$ = p(t|\alpha, k, u, v, \omega_2) \cdot \text{Gamma}(\alpha|a,b) \cdot \text{Beta}(k|c,d)$$
+
+This factorization reflects the fact that the PDF for $t$ depends also on the random variables $\alpha$ and $k$ while the PDFs for $\alpha$ and $k$ are independent and so $p(\alpha|k, \vec{\theta})$ factorizes directly into a Gamma and Beta distributions, with parameters respectively $(\text{shape}, \text{scale}) = (a,b)$ and $(\text{shape1}, \text{shape2}) = (c,d)$ .
