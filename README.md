@@ -14,6 +14,8 @@ This project has been carried out by a group of Physics of Data student as final
     4. [Model 2](#model2)
     4. [Model 3](#model3)
 2. [Methods](#methods)
+    1. [EnsembleSampler class](#ensemble)
+    2. [Derivation of the PDFs](#pdfs)
 
 ## Introduction <a name="introduction"></a>
 
@@ -203,6 +205,43 @@ $$  P(\theta|\tau,k,\alpha) \propto LKL(\tau,\alpha,k) \cdot P(\theta) \tag{28c}
 
 As previously stated, our goal is use the proposed datasets to estimate the parameters of the aforementioned models exploiting Bayesian inference. In other words our target is sampling the multivariate *posterior* distribution of the parameters, given by the Bayes theorem
 
-$$f(\vec{\theta}|\{\vec{x}_i\}) \propto P(\{\vec{x}_i\}|\vec{\theta}) \, \cdot \, p(\theta)$$
+$$f(\vec{\theta}|\{\vec{x}_i\}) \propto P(\{\vec{x}_i\}|\vec{\theta}) \cdot p(\vec{\theta})$$
 
 The tool exploited for sampling the posterior is  [``emcee``](https://emcee.readthedocs.io/en/stable/), a open source python-based *Affine Invariant* Markov chain Monte Carlo (MCMC) Ensemble sampler.
+
+### ``EnsembleSampler`` class <a name="ensemble"></a>
+The key class of the ``emcee`` library is [``EnsembleSampler``](https://emcee.readthedocs.io/en/stable/user/sampler/), whose constructor creates an ``EnsembleSampler`` object. To do so, in our case, it is important to specify:
+- ``nwalkers``, the number of walkers that will move through the parameter space in order to sample from the posterior
+- ``ndim``, the dimension of the parameter space on which the posterior is defined
+- ``log_prob_fn``, a function that takes as input a vector of parameters belonging to the parameter space and returns the natural logarithm of the unnormalized posterior distribution
+- ``args``, an additional set of parameters that is required for the calculation of ``log_prob_fn``. In our case, ``args`` represents the data $\{\vec{x}_i\}$.
+
+It is evident that the most challenging part is the calculation of ``log_prob_fn``, since it requires first the computation of $P(\{\vec{x}_i\}|\vec{\theta})$, which is the likelihood function. The likelihood requires in turn the PDF function $p(\vec{x}_i|\vec{\theta})$, which varies according to the considered model. Indeed, assuming independent measurements $\{\vec{x}_i\}$ we have that
+
+$$P(\{\vec{x}_i\}|\vec{\theta}) = \prod_{i = 1}^{n} p(\vec{x}_i|\vec{\theta})$$
+
+but since we need to provide the natural logarithm of the posterior, we should focus on the log-likelihood:
+
+$$\log P(\{\vec{x}_i\}|\vec{\theta}) = \sum_{i = 1}^{n} \log p(\vec{x}_i|\vec{\theta})$$
+
+As prior $p(\vec{\theta})$ we have chosen a uniform distribution and taken its natural logarithm:
+
+$$\log p(\vec{\theta}) = \begin{cases} 0 \qquad \text{if} \quad \vec{\theta} \in A \\
+-\infin \quad \text{otherwise}\end{cases} \qquad \text{with} \quad A \sube \mathbf{R}^d$$
+
+So the whole unnormalized log-posterior is 
+
+$$\log f(\vec{\theta}|\{\vec{x}_i\}) = \sum_{i = 1}^{n} \log p(\vec{x}_i|\vec{\theta}) + \log p(\vec{\theta})$$
+
+### Derivation of the PDFs <a name="pdfs"></a>
+
+We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\theta})$ for each model, i.e. the PDF associated with the stochastic variables that characterize each model. From the previous section we know that for models 1, 1.2 and 2 the only random vatiable is the lifespan $t$ of the microbe, and the probability distribution for $t$ is $p(t|\vec{\theta}) = -\dot{S}(t)$, where the minus sign is due to the fact that $S(t)$ is a survival probability and so dispalys a monothonic decreasing behaviour as a function of $t$. Equation (2) helps calculating $p(t|\vec{\theta})$ easily, since $p(t|\vec{\theta}) = h(t) \cdot S(t)$, but a little rearrangement is needed to then take its logarithm in a more clever way. </br>
+
+For model 2 we get:
+
+$$p(t|\vec{\theta}) = 0 \qquad t \lt t^* \tag{20a}$$
+
+$$p(t|\vec{\theta}) = \frac{\omega_2 m_0}{\omega_1 (u + v)} \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 (t - t^*)} + \omega_1 (t - t^*) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \cdot \\
+\cdot \bigg(\omega_1 \exp[\omega_1 (t - t^*)] + \omega_1 \Big(\frac{v}{m_0} - 1\Big)\bigg)\qquad t \geq t^* \tag{20b}$$
+
+When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate
