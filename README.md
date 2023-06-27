@@ -232,7 +232,7 @@ $$\log p(\vec{\theta}) = \begin{cases} 0 \qquad \text{if} \quad \vec{\theta} \in
 So the whole unnormalized log-posterior is 
 
 $$
-\log f(\vec{\theta}|\{\vec{x}_i\}) = \sum_{i = 1}^{n} \log p(\vec{x}_i|\vec{\theta}) + \log p(\vec{\theta})
+\log f(\vec{\theta}|\{\vec{x}_i\}) = \sum _{i = 1}^{n} \log p(\vec{x}_i|\vec{\theta}) + \log p(\vec{\theta})
 $$
 
 ### Derivation of the PDFs <a name="pdfs"></a>
