@@ -243,9 +243,9 @@ For model 2 we get:
 
 $$p(t|\vec{\theta}) = 0 \qquad t \lt t^*$$
 
-$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} [e ^ {\omega _1 (t - t^*)} + \omega _1 (t - t^*) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \cdot$$
+$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} [e ^ {\omega _1 (t - t^*)} + \omega _1 (t - t^*) \Big(\frac{v}{m_0} - 1\Big) - 1]\Bigg) \cdot$$
 
-$$\cdot \bigg(\omega _1 \exp[\omega _1 (t - t^*)] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\bigg)\qquad t \geq t^*$$
+$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - t^*)] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq t^*$$
 
 When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
 
