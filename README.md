@@ -220,7 +220,7 @@ It is evident that the most challenging part is the calculation of ``log_prob_fn
 
 <!-- $$P(\{\vec{x}_i\}|\vec{\theta}) = \prod_{i = 1}^{n} p(\vec{x}_i|\vec{\theta})$$ -->
 
-$$P(\{\vec{x}_i\}|\vec{\theta}) = \prod p(\vec{x}_i|\vec{\theta})$$
+$$P(\{\vec{x}_i\}|\vec{\theta}) = \prod_{i = 1}^{n} p(\vec{x}_i|\vec{\theta})$$
 
 but since we need to provide the natural logarithm of the posterior, we should focus on the log-likelihood:
 
