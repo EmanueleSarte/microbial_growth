@@ -244,7 +244,7 @@ For model 2 we get:
 $$p(t|\vec{\theta}) = 0 \qquad t \lt t^*$$
 
 <!-- $$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} [e^{\omega _1 (t - t^*)} + \omega _1 (t - t^*) \Big(\frac{v}{m_0} - 1\Big) - 1]\Bigg) \cdot$$ -->
-$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} [e^{\omega _1(t - t^*)} + \omega _1] \Bigg)$$
+$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} [e^{\omega _1(t - t^*)} + \omega _1 (t-t^*)] \Bigg)$$
 
 $$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - t^*)] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq t^*$$
 
