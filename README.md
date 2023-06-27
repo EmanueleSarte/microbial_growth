@@ -218,7 +218,9 @@ The key class of the ``emcee`` library is [``EnsembleSampler``](https://emcee.re
 
 It is evident that the most challenging part is the calculation of ``log_prob_fn``, since it requires first the computation of $P(\{\vec{x}_i\}|\vec{\theta})$, which is the likelihood function. The likelihood requires in turn the PDF function $p(\vec{x}_i|\vec{\theta})$, which varies according to the considered model. Indeed, assuming independent measurements $\{\vec{x}_i\}$ we have that
 
-$$P(\{\vec{x}_i\}|\vec{\theta}) = \prod_{i = 1}^{n} p(\vec{x}_i|\vec{\theta})$$
+<!-- $$P(\{\vec{x}_i\}|\vec{\theta}) = \prod_{i = 1}^{n} p(\vec{x}_i|\vec{\theta})$$ -->
+
+$$P(\{\vec{x}_i\}|\vec{\theta})$$
 
 but since we need to provide the natural logarithm of the posterior, we should focus on the log-likelihood:
 
