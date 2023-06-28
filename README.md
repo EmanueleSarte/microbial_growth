@@ -12,10 +12,12 @@ This project has been carried out by a group of Physics of Data student as final
     2. [Model 1](#model1)
     3. [Model 1.2](#model1.2)
     4. [Model 2](#model2)
-    4. [Model 3](#model3)
+    5. [Model 3](#model3)
+    6. [Derivation of the PDFs](#pdfs)
+2. [Synthetic data](#synthetic)
 2. [Methods](#methods)
     1. [EnsembleSampler class](#ensemble)
-    2. [Derivation of the PDFs](#pdfs)
+    
 
 ## Introduction <a name="introduction"></a>
 
@@ -177,6 +179,35 @@ $$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
 
 $$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
 
+
+### Derivation of the PDFs <a name="pdfs"></a>
+
+We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\theta})$ for each model, i.e. the PDF associated with the stochastic variables that characterize each model. From the previous sections we know that for models 1, 1.2 and 2 the only random variable is the lifespan $t$ of the microbe, and the probability distribution for $t$ is $p(t|\vec{\theta}) = -\dot{S}(t)$, where the minus sign is due to the fact that $S(t)$ is a survival probability and so dispalys a monothonic decreasing behaviour as a function of $t$. Equation (2) helps calculating $p(t|\vec{\theta})$ easily, since $p(t|\vec{\theta}) = h(t) \cdot S(t)$, but a little rearrangement is needed to then take its logarithm in a more clever way. </br>
+
+For model 2 we get:
+
+$$p(t|\vec{\theta}) = 0 \qquad t \lt t^*$$
+
+$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[\exp [\omega _1 (t - t^*)] + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1 \Big]\Bigg) \cdot$$
+
+$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - \hat{t})] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq t^*$$
+
+When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
+
+$$p(t,\alpha, k|\vec{\theta}) =  p(t|\alpha, k, \vec{\theta}) \cdot p(k|\vec{\theta}) \cdot p(\alpha|\vec{\theta}) =  $$
+
+$$ = p(t|\alpha, k, u, v, \omega_2) \cdot \text{Gamma}(\alpha|a,b) \cdot \text{Beta}(k|c,d)$$
+
+This factorization reflects the fact that the PDF for $t$ depends also on the random variables $\alpha$ and $k$ while the PDFs for $\alpha$ and $k$ are independent and so $p(\alpha|k, \vec{\theta})$ factorizes directly into a Gamma and Beta distributions, with parameters respectively $(\text{shape}, \text{scale}) = (a,b)$ and $(\text{shape1}, \text{shape2}) = (c,d)$.
+
+## Synthetic data <a name="synthetic"></a>
+Now that we have fully outlined the main characteristics of our models it is possible to go through a preliminary phase in which we study synthetic, i.e. simulated, data. This helps catching better the behaviour of the models and also paves the way to performing the actual inference. A synthetic dataset for each model can be easily obtained by collecting random samples from the probability distributions derived in the previous section. The fact that we also know their cumulative distributions makes the task easier, since plain Monte Carlo sampling with numerical inversion will suffice. For model 1, 1.2 and 2 the only stochastic variable is the division time $t$ and so a synthetic dataset consists in a collection $\{t_i\}_{i = 1...n}$ where $t_i \sim -\dot{S}(t) \text{ } \forall i$. In model 3 instead we have three stochastic variables, so a synthetic dataset will be a collection of tuples $\{(t, \alpha, k)_i\}_{i=1...n}$ with $(t, \alpha, k)_i \sim p(t, \alpha, k|\vec{\theta}) \text{ } \forall i$. In the following we report the plots of synthetic lineages for each model
+
+<p align = 'center'>
+    <!-- ![image info](images/s_model2.png) -->
+    <img src = '/images/model2_synth_functions.png' />
+</p>
+
 ## Methods <a name="methods"></a>
 
 As previously stated, our goal is use the proposed datasets to estimate the parameters of the aforementioned models exploiting Bayesian inference. In other words our target is sampling the multivariate *posterior* distribution of the parameters, given by the Bayes theorem
@@ -210,23 +241,3 @@ So the whole unnormalized log-posterior is
 $$
 \log f(\vec{\theta}|\{\vec{x}_i\}) = \sum _{i = 1}^{n} \log p(\vec{x}_i|\vec{\theta}) + \log p(\vec{\theta})
 $$
-
-### Derivation of the PDFs <a name="pdfs"></a>
-
-We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\theta})$ for each model, i.e. the PDF associated with the stochastic variables that characterize each model. From the previous section we know that for models 1, 1.2 and 2 the only random vatiable is the lifespan $t$ of the microbe, and the probability distribution for $t$ is $p(t|\vec{\theta}) = -\dot{S}(t)$, where the minus sign is due to the fact that $S(t)$ is a survival probability and so dispalys a monothonic decreasing behaviour as a function of $t$. Equation (2) helps calculating $p(t|\vec{\theta})$ easily, since $p(t|\vec{\theta}) = h(t) \cdot S(t)$, but a little rearrangement is needed to then take its logarithm in a more clever way. </br>
-
-For model 2 we get:
-
-$$p(t|\vec{\theta}) = 0 \qquad t \lt t^*$$
-
-$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[\exp [\omega _1 (t - t^*)] + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1 \Big]\Bigg) \cdot$$
-
-$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - \hat{t})] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq t^*$$
-
-When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
-
-$$p(t,\alpha, k|\vec{\theta}) =  p(t|\alpha, k, \vec{\theta}) \cdot p(k|\vec{\theta}) \cdot p(\alpha|\vec{\theta}) =  $$
-
-$$ = p(t|\alpha, k, u, v, \omega_2) \cdot \text{Gamma}(\alpha|a,b) \cdot \text{Beta}(k|c,d)$$
-
-This factorization reflects the fact that the PDF for $t$ depends also on the random variables $\alpha$ and $k$ while the PDFs for $\alpha$ and $k$ are independent and so $p(\alpha|k, \vec{\theta})$ factorizes directly into a Gamma and Beta distributions, with parameters respectively $(\text{shape}, \text{scale}) = (a,b)$ and $(\text{shape1}, \text{shape2}) = (c,d)$ .

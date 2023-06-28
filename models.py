@@ -75,7 +75,7 @@ class GenericModel:
         ax.plot(t, S, label="S(t)")
         ax.plot(t, pdf, label="PDF")
 
-        ax.set_xlabel("Time")
+        ax.set_xlabel("t (min)")
         ax.legend()
         title = f"{self.__class__.__name__}  " + self.get_params_str()
         ax.set_title(title, wrap=True)
