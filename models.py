@@ -127,7 +127,7 @@ class Model1_1(GenericModel):
         term1 = w2 * (u/v - 1) * t
         term2 = w2 * ((m0 + u)/(w1*v)) * (np.exp(w1 * t) - 1)
         h = w2 * (1 + (np.exp(w1 * t) * (m0 + u) - u)/v)
-        out = (np.exp(term1 - term2)) * (-h)
+        out = (np.exp(term1 - term2)) * h
         # out[out == 0] = 1e-300
         return out
 
