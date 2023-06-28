@@ -60,7 +60,7 @@ $$m(t) = e ^ {\omega_1 t} (m_0 + u) - u \tag{7}$$
 
 that substituted in (5) returns
 
-$$S(t) = \exp \Bigg(\omega_2 t \Big(\frac{u}{v} - 1\Big) - \frac{\omega_2 (m_0 + u)}{w_1 u} \Big(e^{\omega_1 t} - 1\Big)\Bigg) \tag{8}$$
+$$S(t) = \exp \Bigg(\omega_2 t \Big(\frac{u}{v} - 1\Big) - \frac{\omega_2 (m_0 + u)}{w_1 v} \Big(e^{\omega_1 t} - 1\Big)\Bigg) \tag{8}$$
 
 ### Model 1.2 <a name="model1.2"></a>
 This model is a more accurate version of Model 1, since it embeds the fact that a microbe cell can divide only if a minimum size has been reached. Nevertheless, it is still a single trait model:
