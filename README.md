@@ -133,7 +133,7 @@ which is always a positive quantity. Thus by integrating (15) we get
 
 $$S(t) = 1 \qquad t \lt t^* \tag{20a}$$
 
-$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 t} + \omega_1 t \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq t^* \tag{20b}$$
+$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 (t - t^*)} + \omega_1 (t - t^*) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq t^* \tag{20b}$$
 
 from which it is evident that istantaneous division is not allowed. Next we report the plots of $S(t)$ and $\dot{S}(t)$ with example parameter values inferred from data.
 
@@ -172,7 +172,7 @@ and then integrate (15), obtaining
 
 $$S(t) = 1 \qquad t \lt t^* \tag{26a}$$
 
-$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-t*)}\big) + \alpha (t-t*) (m_0 - v)]\bigg) \qquad (t-t*) \geq t* \tag{26b}$$
+$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-t^*)}\big) + \alpha (t-t^*) (m_0 - v)]\bigg) \qquad t \geq t* \tag{26b}$$
 
 
 ### Derivation of the PDFs <a name="pdfs"></a>
