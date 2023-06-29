@@ -239,4 +239,4 @@ $$
 $$
 
 ### Inference on synthetic data <a name="synthinf"></a>
-In order to become proficient in the use of ``EnsambleSampler`` we first exploited it to infer the model parameters from the synthetic data. This is useful since we can have a solid grasp in the outcome, and so it is possible to fix bugs and errors easily. Once this step is properly completed, switching to real data is straigthforward since the code is already implemented.
+In order to become proficient in the use of ``EnsambleSampler`` we first exploited it to infer the model parameters from the synthetic data. This is useful since we can have a solid grasp in the outcome, and so it is possible to fix bugs and errors easily. Once this step is properly completed, switching to real data is straigthforward since the code is already implemented. Once we have instantiated the ``EnsambleSampler`` method we can use its ``run_mcmc`` method to generate the chain of the samples of the posterior. In the following we report the plots of the marginalized posterior for each parameter. 
