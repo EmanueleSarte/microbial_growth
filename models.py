@@ -9,19 +9,10 @@ class GenericModel:
         self.var_params_label = var_labels.copy()
 
         if fixed_params:
-            #     self.fix_params_label = []
             self.fix_params = fixed_params.copy()
-        #     for label, param in fixed_params.items():
-        #         self.fix_params_label.append(label)
-        #         self.fix_params.append(param)
 
         if variable_params:
-            #     self.var_params_label = []
             self.var_params = variable_params.copy()
-        #     for label, param in variable_params.items():
-        #         self.var_params_label.append(label)
-        #         self.var_params.append(param)
-
             self.var_params_initial = self.var_params.copy()
 
     def X(self, t):
