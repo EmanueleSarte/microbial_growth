@@ -209,32 +209,46 @@ class Model1_2(GenericModel):
         th = np.log(u / m0) / w1
 
         mask = t >= th
-        if th > 0:
-            t = t - th
-
-        factor = - (w2 * m0) / (w1 * (u + v))
-        term1 = np.exp(w1 * t) - 1
-        term2 = w1 * t * v / m0
-        res[mask] = np.exp(factor * (term1 + term2))[mask]
+        piece = -w2 * m0 / ((u + v) * w1) * (np.exp(w1 * t) - np.exp(w1 * th) + w1 * v * (t - th) / m0)
+        res[mask] = np.exp(piece)[mask]
         return res
+
+        # if th > 0:
+        #     t = t - th
+
+        # factor = - (w2 * m0) / (w1 * (u + v))
+        # term1 = np.exp(w1 * t) - 1
+        # term2 = w1 * t * v / m0
+        # res[mask] = np.exp(factor * (term1 + term2))[mask]
+        # return res
 
     def pdf(self, t):
         m0, w1, w2, u, v = self.m0, self.w1, self.w2, self.u, self.v
+
+        res = np.zeros(shape=t.shape)
         th = np.log(u / m0) / w1
 
         mask = t >= th
-        if th > 0:
-            t = t - th
+        piece = -w2 * m0 / ((u + v) * w1) * (np.exp(w1 * t) - np.exp(w1 * th) + w1 * v * (t - th) / m0)
 
-        factor = - (w2 * m0) / (w1 * (u + v))
-        term1 = np.exp(w1 * t) - 1
-        term2 = w1 * t * v / m0
-
-        h = w2 * (m0 * np.exp(w1 * t) + v) / (u + v)
-
-        res = np.zeros(shape=len(t))
-        res[mask] = (np.exp(factor * (term1 + term2)) * h)[mask]
+        res[mask] = (-np.exp(piece) * (-w2 * m0 / (w1 * (u + v))) * (np.exp(w1 * t) * w1 + v * w1 / m0))[mask]
         return res
+
+        # th = np.log(u / m0) / w1
+
+        # mask = t >= th
+        # if th > 0:
+        #     t = t - th
+
+        # factor = - (w2 * m0) / (w1 * (u + v))
+        # term1 = np.exp(w1 * t) - 1
+        # term2 = w1 * t * v / m0
+
+        # h = w2 * (m0 * np.exp(w1 * t) + v) / (u + v)
+
+        # res = np.zeros(shape=len(t))
+        # res[mask] = (np.exp(factor * (term1 + term2)) * h)[mask]
+        # return res
 
     def log_pdf(self, params, life_spans, m0s):
         w1, w2, u, v = params
@@ -247,20 +261,31 @@ class Model1_2(GenericModel):
             #     # return res
             # else:
             #     t = t - th
-            #     factor1 = (-w2 * m / (w1 * (u + v))) * (np.exp(w1 * t) * v * w1 - 1 + w1 * t * v / m) 
+            #     factor1 = (-w2 * m / (w1 * (u + v))) * (np.exp(w1 * t) * v * w1 - 1 + w1 * t * v / m)
             #     factor2 = np.log(w2 * (m * np.exp(w1 * t) + v) / (u + v))
             #     res[i] = (factor1 + factor2)
 
+            # th = np.log(u / m) / w1
+            # if t < th:
+            #     res[i] = np.log(1e-4)
+            #     # return res
+            # else:
+            #     sigma = np.exp(w1 * (t - th))
+            #     piece1 = m * w2 / w1 / (u + v)
+            #     piece2 = -w2*(m * sigma + v * w1 * (t - th)) / w1 / (u + v)
+            #     piece3 = (v * w1 + m * w1 * sigma)
+            #     res[i] = np.log(w2 / (w1 * (u + v))) + piece1 + piece2 + np.log(piece3)
+
             th = np.log(u / m) / w1
             if t < th:
-                res[i] = np.log(1e-4)
-                # return res
+                res[i] = -np.inf
+                return res
             else:
-                sigma = np.exp(w1 * (t - th))
-                piece1 = m * w2 / w1 / (u + v)
-                piece2 = -w2*(m * sigma + v * w1 * (t - th)) / w1 / (u + v)
-                piece3 = (v * w1 + m * w1 * sigma)
-                res[i] = np.log(w2 / (w1 * (u + v))) + piece1 + piece2 + np.log(piece3)
+                piece = -w2 * m / ((u + v) * w1) * (np.exp(w1 * t) - np.exp(w1 * th) + w1 * v * (t - th) / m)
+                final = (-np.exp(piece) * (-w2 * m / (w1 * (u + v))) * (np.exp(w1 * t) * w1 + v * w1 / m))
+                if final <= 0:
+                    print("XDDD")
+                res[i] = np.log(final)
 
         return res
 
