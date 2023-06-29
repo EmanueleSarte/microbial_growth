@@ -88,9 +88,9 @@ $$\hat{t} \equiv \frac{1}{w_1} \log \Big(\frac{u}{m_0}\Big)$$
 
 which represents the amount of time elapsed since the division of the mother cell in order for $h(m)$ to become non-zero. Now we can integrate eq. (), obtaining 
 
-$$S(t) = 0 \qquad t \lt \hat{t} \tag{12a}$$
+$$S(t) = 1 \qquad t \lt \hat{t} \tag{12a}$$
 
-$$S(t) = \exp \Big(- \frac{\omega_2}{\omega_1(u+v)}[e ^ {\omega_1 t} - \omega_1 v t  - 1]\Big) \qquad t \geq \hat{t} \tag{12b}$$
+$$S(t) = \exp \Big(- \frac{\omega_2 m_0}{\omega_1(u+v)}[e ^ {\omega_1 t} - e ^ {\omega_1 \hat{t}} + \frac{\omega_1 v}{m_0} (t - \hat{t})]\Big) \qquad t \geq \hat{t} \tag{12b}$$
 
 
 Since $m_0$ could be smaller than $u$, then, in those cases, $\hat{t} <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (12b). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervations of this behaviour has been made on microbes. 
