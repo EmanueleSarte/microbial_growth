@@ -137,11 +137,6 @@ $$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 t} + 
 
 from which it is evident that istantaneous division is not allowed. Next we report the plots of $S(t)$ and $\dot{S}(t)$ with example parameter values inferred from data.
 
-<p align = 'center'>
-    <!-- ![image info](images/s_model2.png) -->
-    <img src = '/images/model2.png' />
-</p>
-
 ### Model 3 <a name="model3"></a>
 
 This last model is the more advanced one as it introduces more elements of stochasticity aiming at catching more accurately the observed behaviour of microbe cells. The fist main innovation that this model embeds is the presence of the growth rate as dynamic variable, thus
@@ -224,7 +219,7 @@ The key class of the ``emcee`` library is [``EnsembleSampler``](https://emcee.re
 - ``log_prob_fn``, a function that takes as input a vector of parameters belonging to the parameter space and returns the natural logarithm of the unnormalized posterior distribution
 - ``args``, an additional set of parameters that is required for the calculation of ``log_prob_fn``. In our case, ``args`` represents the data $\{\vec{x}_i\}$.
 
-It is evident that the most challenging part is the calculation of ``log_prob_fn``, since it requires first the computation of $P(\{\vec{x}_i\}|\vec{\theta})$, which is the likelihood function. The likelihood requires in turn the PDF function $p(\vec{x}_i|\vec{\theta})$, which varies according to the considered model. Indeed, assuming independent measurements $\{\vec{x}_i\}$ we have that
+It is evident that the most challenging part is the calculation of ``log_prob_fn``, since it requires first the computation of $P(\{\vec{x}_i\}|\vec{\theta})$, which is the likelihood function. The likelihood requires in turn the PDF function $p(\vec{x}_i|\vec{\theta})$, which we have derived before. Indeed, assuming independent measurements $\{\vec{x}_i\}$ we have that
 
 $$P(\{\vec{x}_i\}|\vec{\theta}) = \prod _{i = 1}^{n} p(\vec{x}_i|\vec{\theta})$$
 
@@ -242,3 +237,6 @@ So the whole unnormalized log-posterior is
 $$
 \log f(\vec{\theta}|\{\vec{x}_i\}) = \sum _{i = 1}^{n} \log p(\vec{x}_i|\vec{\theta}) + \log p(\vec{\theta})
 $$
+
+### Inference on synthetic data <a name="synthinf"></a>
+In order to become proficient in the use of ``EnsambleSampler`` we first exploited it to infer the model parameters from the synthetic data. This is useful since we can have a solid grasp in the outcome, and so it is possible to fix bugs and errors easily. Once this step is properly completed, switching to real data is straigthforward since the code is already implemented.
