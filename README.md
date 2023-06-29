@@ -131,9 +131,9 @@ $$t^* \equiv \frac{1}{\omega_1} \log \Big(\frac{u}{m_0} + 1\Big) \tag{19}$$
 
 which is always a positive quantity. Thus by integrating (15) we get
 
-$$S(t) = 1 \qquad t \lt t^* \tag{20a}$$
+$$S(t) = 1 \qquad t \lt \hat{t} \tag{20a}$$
 
-$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 (t - t^*)} + \omega_1 (t - t^*) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq t^* \tag{20b}$$
+$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 (t - \hat{t})} + \omega_1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq \hat{t} \tag{20b}$$
 
 from which it is evident that istantaneous division is not allowed. Next we report the plots of $S(t)$ and $\dot{S}(t)$ with example parameter values inferred from data.
 
