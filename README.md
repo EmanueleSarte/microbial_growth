@@ -170,9 +170,9 @@ $$t ^ * \equiv \frac{1}{\alpha} \log\Big(\frac{u}{m_0} + 1\Big) \tag{25}$$
 
 and then integrate (15), obtaining
 
-$$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
+$$S(t) = 1 \qquad t \lt t^* \tag{26a}$$
 
-$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
+$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-t*)}\big) + \alpha (t-t*) (m_0 - v)]\bigg) \qquad (t-t*) \geq t* \tag{26b}$$
 
 
 ### Derivation of the PDFs <a name="pdfs"></a>
