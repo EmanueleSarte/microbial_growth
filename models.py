@@ -547,12 +547,15 @@ class Model3(GenericModel):
         th = (1 / alpha) * np.log((u / m0) + 1)
         mask = t >= th
 
-        if th > 0:
-            t = t - th
-        factor = w2 / (alpha * (u + v))
-        term1 = m0 * (1 - np.exp(alpha * t))
-        term2 = alpha * t * (m0 - v)
-        res[mask] = np.exp(factor * (term1 + term2))[mask]
+        
+          
+        factor1 = -(w2*m0) / (alpha * (u + v))
+        term1 = np.exp(alpha*t)-np.exp(alpha*th)
+        factor2 = (w2*m0)/(u+v)
+        term2 = t-th
+        factor3 = -(w2*v)/(u+v)
+        term3 = t-th
+        res[mask] = np.exp(factor1 * term1 + factor2*term2 +factor3*term3)[mask]
         return res
 
     def pdf(self, t, params=None):
@@ -569,14 +572,16 @@ class Model3(GenericModel):
         th = np.where(th < 0, 0, th)
         mask = t >= th
 
-        t = t - th
-        factor = w2 / (alpha * (u + v))
-        term1 = m0 * (1 - np.exp(alpha * t))
-        term2 = alpha * t * (m0 - v)
+        factor1 = -(w2*m0) / (alpha * (u + v))
+        term1 = np.exp(alpha*t)-np.exp(alpha*th)
+        factor2 = (w2*m0)/(u+v)
+        term2 = t-th
+        factor3 = -(w2*v)/(u+v)
+        term3 = t-th
 
-        h = w2 * m0 * (np.exp(alpha * t) - 1 + v / m0) / (u + v)
+        h = (w2/(u+v))*(-m0*np.exp(alpha*t)+m0-v)
 
-        res[mask] = (np.exp(factor * (term1 + term2)) * h)[mask]
+        res[mask] = (-np.exp(factor1 * term1 + factor2*term2 +factor3*term3) * h)[mask]
         return res
 
     def log_pdf(self, params, life_spans, kappas, m_finals, alphas):
@@ -589,11 +594,18 @@ class Model3(GenericModel):
         th = np.where(th < 0, 0, th)
         mask = t >= th
 
-        t = t - th
+        #t = t - th
 
-        factor1 = w2 / (alphas * (u + v)) * (m0 * (1 - np.exp(alphas * t)) + alphas * t * (m0 - v))
-        factor2 = np.log(w2 * m0 / (u + v)) + np.log(np.exp(alphas * t) - 1 + v / m0)
-        res[mask] = (factor1 + factor2)[mask]
+        factor1 = -(w2*m0) / (alphas * (u + v))
+        term1 = np.exp(alphas*t)-np.exp(alphas*th)
+        factor2 = (w2*m0)/(u+v)
+        term2 = t-th
+        factor3 = -(w2*v)/(u+v)
+        term3 = t-th
+
+        h = (w2/(u+v))*(-m0*np.exp(alphas*t)+m0-v)
+
+        res[mask] = np.log(-np.exp(factor1 * term1 + factor2*term2 +factor3*term3) * h)[mask]
         return res
 
     def log_prior(self, params):
