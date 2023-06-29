@@ -174,7 +174,7 @@ $$S(t) = 1 \qquad t \lt \hat{t} \tag{26a}$$
 
 $$S(t) = \exp \bigg(\frac{\omega_2}{(u+v)} [- \frac{m_0}{\alpha} \big(e ^ {\alpha t}-e^{\alpha \hat{t}}) + m_0 \big (t-\hat{t}) - v \big(t-\hat{t})]\bigg) \qquad t \geq \hat{t} \tag{26b}$$
 
-Here we have 7 parameters: a and b define the values of the growth rate (parameter $\omega_1$ in the èrevious models) so we expect a*b to represents the values of the growth rates in the real data. In the same way c, d are the parameters that define the division ratio. $\omega_2$, u, v have the same meaning of before.
+Here we have 7 parameters: a and b define the values of the growth rate (parameter $\omega_1$ in the previous models) so we expect a*b to represents the values of the growth rates in the real data. In the same way c, d are the parameters that define the division ratio. $\omega_2$, u, v have the same meaning of before.
 
 The resulting pdf is:
 
@@ -269,3 +269,4 @@ In order to become proficient in the use of ``EnsambleSampler`` we first exploit
 
 ### Inference on real data <a name="synthinf"></a>
 Once made sure that the inference worked well on synthetic data we switched to considering real data. The datasets used in this work are [*Tanouchi25c*](https://doi.org/10.1038/sdata.2017.36), [*Tanouchi37c*](https://doi.org/10.1038/sdata.2017.36) and [*Susman18*](https://www.pnas.org/doi/full/10.1073/pnas.1615526115). These datasets contain long-term, single-cell measurements of *Escherichia coli* cultures grown in different conditions. Each record contains ready-to-use values on the initial length, final length, lifespan, growth rate and division ratio of the microbe. Records are organized into *lineages*, namely groups of records associated to cells that share the same parent. This is an important detail because in order to keep track of the aforementioned quantities we have to make sure that they refer to the same lineage. Thus we have performed the inference lineage by lineage.
+For model 3 with the results of the emcee we manage to analyze more deeply the final parameters. First, we check that the parameters of the gamma function (a,b) and the beta function (c,d) have values that represent the distribution in the real data of growth rate and division ratio respectively. After that we also look at the ratio of the frequencies $\frac{\omega_2}{\omega_1}$ and of $\frac{u}{v}$, which we expect to be near one (but smaller than one). At the end we also look at the correlations between the variables (division times, growth rates, division ratios) to eventually notice some possible improvements in the model.
