@@ -174,7 +174,7 @@ $$S(t) = 1 \qquad t \lt \hat{t} \tag{26a}$$
 
 $$S(t) = \exp \bigg(\frac{\omega_2}{(u+v)} [- \frac{m_0}{\alpha} \big(e ^ {\alpha t}-e^{\alpha \hat{t}}) + m_0 \big (t-\hat{t}) - v \big(t-\hat{t})]\bigg) \qquad t \geq \hat{t} \tag{26b}$$
 
-Here we have 7 parameters: a and b define the values of the growth rate (parameter $\omega_1$ in the èrevious models) so we expect a*b to represents the values of the growth rates in the real data. In the same way c, d are the parameters that define the division ratio. $\omega_2$, u, v have the same meaning of before.
+Here we have 7 parameters: a and b define the values of the growth rate (parameter $\omega_1$ in the previous models) so we expect a*b to represents the values of the growth rates in the real data. In the same way c, d are the parameters that define the division ratio. $\omega_2$, u, v have the same meaning of before.
 
 The resulting pdf is:
 
