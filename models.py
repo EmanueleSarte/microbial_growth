@@ -75,7 +75,7 @@ class GenericModel:
         ax.plot(t, S, label="S(t)")
         ax.plot(t, pdf, label="PDF")
 
-        ax.set_xlabel("t (min)")
+        ax.set_xlabel("t (hours)")
         ax.legend()
         title = f"{self.__class__.__name__}  " + self.get_params_str()
         ax.set_title(title, wrap=True)
@@ -447,7 +447,7 @@ class Model2(GenericModel):
 
     def log_prior(self, params):
         w1, w2, u, v = params
-        if 6 > w1 > 0 and 10 > w2 > 0 and v > u > 0 and 0 < v <= 30:
+        if w1 > 0 and 10 > w2 > 0 and v > u > 0 and 0 < v <= 40:
             return 0.0
         else:
             return -np.inf

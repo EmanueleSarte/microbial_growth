@@ -21,7 +21,7 @@ This project has been carried out by a group of Physics of Data student as final
 
 ## Introduction <a name="introduction"></a>
 
-The aim of this project is analyzing data coming from microbial cultures by performing Bayesian inference of parameters belonging to stochastic models that describe the growth and the lifetime of the microbes themselves. The datasets used in this work are *Tanouchi25c*, *Tanouchi37c* and *Susman18*. 
+The aim of this project is analyzing data coming from microbial cultures by performing Bayesian inference of parameters belonging to stochastic models that describe the growth and the lifetime of the microbes themselves.
 
 ### Formalism <a name="formalism"></a>
 The underlying idea that is shared by all the models considered for the analysis of the data is that a microbe can be described as a *dynamical system* characterized by a few dynamical variables $\vec{x}$ that obey a *"motion" equation*:
@@ -133,7 +133,7 @@ which is always a positive quantity. Thus by integrating (15) we get
 
 $$S(t) = 1 \qquad t \lt \hat{t} \tag{20a}$$
 
-$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 (t - \hat{t})} + \omega_1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq \hat{t} \tag{20b}$$
+$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} \Big[e ^ {\omega _1 t} - e ^ {\omega _1 \hat{t}} + \omega_1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big)\Big]\bigg) \qquad t \geq \hat{t} \tag{20b}$$
 
 from which it is evident that istantaneous division is not allowed. Next we report the plots of $S(t)$ and $\dot{S}(t)$ with example parameter values inferred from data.
 
@@ -183,9 +183,9 @@ For model 2 we get:
 
 $$p(t|\vec{\theta}) = 0 \qquad t \lt \hat{t}$$
 
-$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[\exp [\omega _1 (t - \hat{t})] + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1 \Big]\Bigg) \cdot$$
+$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[e ^ {\omega _1 t} + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - \frac{u}{m_0} - 1\Big]\Bigg) \cdot$$
 
-$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - \hat{t})] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq \hat{t}$$
+$$\cdot \Bigg(\omega _1 e ^ {\omega _1 t} + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq \hat{t}$$
 
 When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
 
@@ -242,4 +242,8 @@ $$
 $$
 
 ### Inference on synthetic data <a name="synthinf"></a>
-In order to become proficient in the use of ``EnsambleSampler`` we first exploited it to infer the model parameters from the synthetic data. This is useful since we can have a solid grasp in the outcome, and so it is possible to fix bugs and errors easily. Once this step is properly completed, switching to real data is straigthforward since the code is already implemented. Once we have instantiated the ``EnsambleSampler`` method we can use its ``run_mcmc`` method to generate the chain of the samples of the posterior. In the following we report the plots of the marginalized posterior for each parameter. 
+In order to become proficient in the use of ``EnsambleSampler`` we first exploited it to infer the model parameters from the synthetic data. This is useful since we can have a solid grasp in the outcome, and so it is possible to fix bugs and errors easily. Once this step is properly completed, switching to real data is straigthforward since the code is already implemented. Once we have instantiated the ``EnsambleSampler`` method we can use its ``run_mcmc`` method to generate the chain of the samples of the posterior. In the following we report the chains and the plots of the marginalized posterior for each parameter. 
+
+
+### Inference on real data <a name="synthinf"></a>
+Once made sure that the inference worked well on synthetic data we switched to considering real data. The datasets used in this work are [*Tanouchi25c*](https://doi.org/10.1038/sdata.2017.36), [*Tanouchi37c*](https://doi.org/10.1038/sdata.2017.36) and [*Susman18*](https://www.pnas.org/doi/full/10.1073/pnas.1615526115). These datasets contain long-term, single-cell measurements of *Escherichia coli* cultures grown in different conditions. Each record contains ready-to-use values on the initial length, final length, lifespan, growth rate and division ratio of the microbe. Records are organized into *lineages*, namely groups of records associated to cells that share the same parent. This is an important detail because in order to keep track of the aforementioned quantities we have to make sure that they refer to the same lineage. Thus we have performed the inference lineage by lineage.
