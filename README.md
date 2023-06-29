@@ -189,6 +189,7 @@ We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\th
 For model 1 we get:
 
 $$p(t|\vec{\theta}) = \Bigg(w_2 - \frac{u w_2 -  w_2 e^{t w_1} (m_0+ u)}{v } \Bigg)\exp \Bigg( \frac{w_2 (m_0 + u)}{v w_1} \Bigg) \cdot $$
+
 $$\cdot \exp \Bigg( -t w_2- \frac{w_2 e^{t w_1} (m_0 + u) - t u w_1 w_2}{v w_1} \Bigg) $$
 
 For model 1.2 we get:
