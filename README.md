@@ -183,6 +183,15 @@ $$p(t) = -S(t)\cdot \frac{\omega_2}{u+v} \cdot (-m_0 e^{\alpha t}+m_0-v) $$
 
 We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\theta})$ for each model, i.e. the PDF associated with the stochastic variables that characterize each model. From the previous sections we know that for models 1, 1.2 and 2 the only random variable is the lifespan $t$ of the microbe, and the probability distribution for $t$ is $p(t|\vec{\theta}) = -\dot{S}(t)$, where the minus sign is due to the fact that $S(t)$ is a survival probability and so dispalys a monothonic decreasing behaviour as a function of $t$. Equation (2) helps calculating $p(t|\vec{\theta})$ easily, since $p(t|\vec{\theta}) = h(t) \cdot S(t)$, but a little rearrangement is needed to then take its logarithm in a more clever way. </br>
 
+
+For model 1.2 we get:
+$$p(t|\vec{\theta}) = 0 \qquad t \lt \hat{t}$$
+
+$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[e ^ {\omega _1 t} - e ^ {\omega _1 \hat{t}}+ \frac{\omega _1 v}{m_0} (t - \hat{t}) \Big]\Bigg) \cdot$$
+
+$$\cdot \Bigg(\omega _1 e ^ {\omega _1 t} +  \frac{\omega _1 v}{m_0}\Bigg) \qquad t \geq \hat{t}$$
+
+
 For model 2 we get:
 
 $$p(t|\vec{\theta}) = 0 \qquad t \lt \hat{t}$$
