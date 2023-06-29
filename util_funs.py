@@ -53,9 +53,10 @@ def emcee_analysis(nwalkers, truths, log_prob_fn, args, guess, chain_lenght, lab
     for i in range(len(labels)):
         mcmc = np.percentile(flat_samples[:, i], [2.5, 50, 97.5])
         nbins = int(np.sqrt(flat_samples.shape[0]))
-        plt.ioff()
-        n, bins, _ = plt.hist(flat_samples[:, i], bins=nbins, visible = False);
-        plt.close()
+        # plt.ioff()
+        # n, bins, _ = plt.hist(flat_samples[:, i], bins=nbins, visible = False);
+        n, bins = np.histogram(flat_samples[:, i], bins=nbins);
+        # plt.close()
         centers = (bins[:-1] + bins[1:]) / 2
         max_index = np.where(n == np.max(n))[0]
         if len(max_index > 1):
@@ -149,10 +150,10 @@ def filter_file_names(folder_path, df_name, run_id):
         if not pieces[0].startswith(df_name):
             continue
 
-        if run_id != int(pieces[3]):
+        if run_id != int(pieces[-3]):
             continue
 
-        filtered_dict[filename] = (pieces[0], int(pieces[3]), int(pieces[5].split(".")[0]))
+        filtered_dict[filename] = (pieces[0], int(pieces[-3]), int(pieces[-1].split(".")[0]))
 
     return filtered_dict
 
