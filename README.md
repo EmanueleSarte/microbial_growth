@@ -199,6 +199,9 @@ This factorization reflects the fact that the PDF for $t$ depends also on the ra
 Now that we have fully outlined the main characteristics of our models it is possible to go through a preliminary phase in which we study synthetic, i.e. simulated, data. This helps catching better the behaviour of the models and also paves the way to performing the actual inference. A synthetic dataset for each model can be easily obtained by collecting random samples from the probability distributions derived in the previous section. The fact that we also know their cumulative distributions makes the task easier, since plain Monte Carlo sampling with numerical inversion will suffice. For model 1, 1.2 and 2 the only stochastic variable is the division time $t$ and so a synthetic dataset consists in a collection $\lbrace t_i\rbrace _{i = 1...n}$ where $t_i \sim -\dot{S}(t) \text{ } \forall i$. In model 3 instead we have three stochastic variables, so a synthetic dataset will be a collection of tuples $\lbrace (t, \alpha, k) _i\rbrace _{i=1...n}$ with $(t, \alpha, k)_i \sim p(t, \alpha, k|\vec{\theta}) \text{ } \forall i$. In the following we report the plots of synthetic lineages for each model
 
 <p align = 'center'>
+    <!-- ![image info](images/model1_1_synth_functions.png)-->
+    <img src='/images/model1_1_synth_functions.png' />
+    <img src='/images/model1_1_synth_lineage.png' />
     <!-- ![image info](images/s_model2.png) -->
     <img src = '/images/model2_synth_functions.png' />
     <img src = '/images/model2_synth_lineage.png' />
