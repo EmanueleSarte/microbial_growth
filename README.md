@@ -12,10 +12,12 @@ This project has been carried out by a group of Physics of Data student as final
     2. [Model 1](#model1)
     3. [Model 1.2](#model1.2)
     4. [Model 2](#model2)
-    4. [Model 3](#model3)
+    5. [Model 3](#model3)
+    6. [Derivation of the PDFs](#pdfs)
+2. [Synthetic data](#synthetic)
 2. [Methods](#methods)
     1. [EnsembleSampler class](#ensemble)
-    2. [Derivation of the PDFs](#pdfs)
+    
 
 ## Introduction <a name="introduction"></a>
 
@@ -82,16 +84,16 @@ $$m(t) = m_0 e ^ {\omega_1 t} \tag{11}$$
 
 and thus we can define the following quantity
 
-$$t^* \equiv \frac{1}{w_1} \log \Big(\frac{u}{m_0}\Big)$$
+$$\hat{t} \equiv \frac{1}{w_1} \log \Big(\frac{u}{m_0}\Big)$$
 
 which represents the amount of time elapsed since the division of the mother cell in order for $h(m)$ to become non-zero. Now we can integrate eq. (), obtaining 
 
-$$S(t) = 0 \qquad t \lt t^* \tag{12a}$$
+$$S(t) = 0 \qquad t \lt \hat{t} \tag{12a}$$
 
-$$S(t) = \exp \Big(- \frac{\omega_2}{\omega_1(u+v)}[e ^ {\omega_1 t} - \omega_1 v t  - 1]\Big) \qquad t \geq t^* \tag{12b}$$
+$$S(t) = \exp \Big(- \frac{\omega_2}{\omega_1(u+v)}[e ^ {\omega_1 t} - \omega_1 v t  - 1]\Big) \qquad t \geq \hat{t} \tag{12b}$$
 
 
-Since $m_0$ could be smaller than $u$, then, in those cases, $t^* <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (12b). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervations of this behaviour has been made on microbes. 
+Since $m_0$ could be smaller than $u$, then, in those cases, $\hat{t} <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (12b). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervations of this behaviour has been made on microbes. 
 
 ### Model 2 <a name="model2"></a>
 Model 2 aims at correcting the istantaneous division problem that arises in Model 1.2. To do so we need to introduce another dynamic variable, $p$, which represents the amount of a fictious protein that needs to be accumulated over a certain threshold quantity in order to allow the division process. Thus in this case we have that
@@ -125,20 +127,15 @@ $$p(t) = m_0 (e ^ {w_1 t} - 1) \tag{18}$$
 
 Thanks to eq. (18) we can look at eq. (15) and define
 
-$$t^* \equiv \frac{1}{\omega_1} \log \Big(\frac{u}{m_0} + 1\Big) \tag{19}$$
+$$\hat{t} \equiv \frac{1}{\omega_1} \log \Big(\frac{u}{m_0} + 1\Big) \tag{19}$$
 
 which is always a positive quantity. Thus by integrating (15) we get
 
-$$S(t) = 1 \qquad t \lt t^* \tag{20a}$$
+$$S(t) = 1 \qquad t \lt \hat{t} \tag{20a}$$
 
-$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 t} + \omega_1 t \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq t^* \tag{20b}$$
+$$S(t) = \exp \bigg(- \frac{\omega_2 m_0}{\omega_1 (u + v)} [e ^ {\omega_1 (t - \hat{t})} + \omega_1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1]\bigg) \qquad t \geq \hat{t} \tag{20b}$$
 
 from which it is evident that istantaneous division is not allowed. Next we report the plots of $S(t)$ and $\dot{S}(t)$ with example parameter values inferred from data.
-
-<p align = 'center'>
-    <!-- ![image info](images/s_model2.png) -->
-    <img src = '/images/model2.png' />
-</p>
 
 ### Model 3 <a name="model3"></a>
 
@@ -173,9 +170,42 @@ $$t ^ * \equiv \frac{1}{\alpha} \log\Big(\frac{u}{m_0} + 1\Big) \tag{25}$$
 
 and then integrate (15), obtaining
 
-$$S(t) = 0 \qquad t \lt t^* \tag{26a}$$
+$$S(t) = 1 \qquad t \lt \hat{t} \tag{26a}$$
 
-$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha t}\big) + \alpha t (m_0 - v)]\bigg) \qquad t \geq t^* \tag{26b}$$
+$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-\hat{t})}\big) + \alpha (t-\hat{t}) (m_0 - v)]\bigg) \qquad t \geq t* \tag{26b}$$
+
+
+### Derivation of the PDFs <a name="pdfs"></a>
+
+We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\theta})$ for each model, i.e. the PDF associated with the stochastic variables that characterize each model. From the previous sections we know that for models 1, 1.2 and 2 the only random variable is the lifespan $t$ of the microbe, and the probability distribution for $t$ is $p(t|\vec{\theta}) = -\dot{S}(t)$, where the minus sign is due to the fact that $S(t)$ is a survival probability and so dispalys a monothonic decreasing behaviour as a function of $t$. Equation (2) helps calculating $p(t|\vec{\theta})$ easily, since $p(t|\vec{\theta}) = h(t) \cdot S(t)$, but a little rearrangement is needed to then take its logarithm in a more clever way. </br>
+
+For model 2 we get:
+
+$$p(t|\vec{\theta}) = 0 \qquad t \lt \hat{t}$$
+
+$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[\exp [\omega _1 (t - \hat{t})] + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1 \Big]\Bigg) \cdot$$
+
+$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - \hat{t})] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq \hat{t}$$
+
+When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
+
+$$p(t,\alpha, k|\vec{\theta}) =  p(t|\alpha, k, \vec{\theta}) \cdot p(k|\vec{\theta}) \cdot p(\alpha|\vec{\theta}) =  $$
+
+$$ = p(t|\alpha, k, u, v, \omega_2) \cdot \text{Gamma}(\alpha|a,b) \cdot \text{Beta}(k|c,d)$$
+
+This factorization reflects the fact that the PDF for $t$ depends also on the random variables $\alpha$ and $k$ while the PDFs for $\alpha$ and $k$ are independent and so $p(\alpha|k, \vec{\theta})$ factorizes directly into a Gamma and Beta distributions, with parameters respectively $(\text{shape}, \text{scale}) = (a,b)$ and $(\text{shape1}, \text{shape2}) = (c,d)$.
+
+## Synthetic data <a name="synthetic"></a>
+Now that we have fully outlined the main characteristics of our models it is possible to go through a preliminary phase in which we study synthetic, i.e. simulated, data. This helps catching better the behaviour of the models and also paves the way to performing the actual inference. A synthetic dataset for each model can be easily obtained by collecting random samples from the probability distributions derived in the previous section. The fact that we also know their cumulative distributions makes the task easier, since plain Monte Carlo sampling with numerical inversion will suffice. For model 1, 1.2 and 2 the only stochastic variable is the division time $t$ and so a synthetic dataset consists in a collection $\lbrace t_i\rbrace _{i = 1...n}$ where $t_i \sim -\dot{S}(t) \text{ } \forall i$. In model 3 instead we have three stochastic variables, so a synthetic dataset will be a collection of tuples $\lbrace (t, \alpha, k) _i\rbrace _{i=1...n}$ with $(t, \alpha, k)_i \sim p(t, \alpha, k|\vec{\theta}) \text{ } \forall i$. In the following we report the plots of synthetic lineages for each model
+
+<p align = 'center'>
+    <!-- ![image info](images/model1_1_synth_functions.png)-->
+    <img src='/images/model1_1_synth_functions.png' />
+    <img src='/images/model1_1_synth_lineage.png' />
+    <!-- ![image info](images/s_model2.png) -->
+    <img src = '/images/model2_synth_functions.png' />
+    <img src = '/images/model2_synth_lineage.png' />
+</p>
 
 ## Methods <a name="methods"></a>
 
@@ -192,7 +222,7 @@ The key class of the ``emcee`` library is [``EnsembleSampler``](https://emcee.re
 - ``log_prob_fn``, a function that takes as input a vector of parameters belonging to the parameter space and returns the natural logarithm of the unnormalized posterior distribution
 - ``args``, an additional set of parameters that is required for the calculation of ``log_prob_fn``. In our case, ``args`` represents the data $\{\vec{x}_i\}$.
 
-It is evident that the most challenging part is the calculation of ``log_prob_fn``, since it requires first the computation of $P(\{\vec{x}_i\}|\vec{\theta})$, which is the likelihood function. The likelihood requires in turn the PDF function $p(\vec{x}_i|\vec{\theta})$, which varies according to the considered model. Indeed, assuming independent measurements $\{\vec{x}_i\}$ we have that
+It is evident that the most challenging part is the calculation of ``log_prob_fn``, since it requires first the computation of $P(\{\vec{x}_i\}|\vec{\theta})$, which is the likelihood function. The likelihood requires in turn the PDF function $p(\vec{x}_i|\vec{\theta})$, which we have derived before. Indeed, assuming independent measurements $\{\vec{x}_i\}$ we have that
 
 $$P(\{\vec{x}_i\}|\vec{\theta}) = \prod _{i = 1}^{n} p(\vec{x}_i|\vec{\theta})$$
 
@@ -211,22 +241,5 @@ $$
 \log f(\vec{\theta}|\{\vec{x}_i\}) = \sum _{i = 1}^{n} \log p(\vec{x}_i|\vec{\theta}) + \log p(\vec{\theta})
 $$
 
-### Derivation of the PDFs <a name="pdfs"></a>
-
-We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\theta})$ for each model, i.e. the PDF associated with the stochastic variables that characterize each model. From the previous section we know that for models 1, 1.2 and 2 the only random vatiable is the lifespan $t$ of the microbe, and the probability distribution for $t$ is $p(t|\vec{\theta}) = -\dot{S}(t)$, where the minus sign is due to the fact that $S(t)$ is a survival probability and so dispalys a monothonic decreasing behaviour as a function of $t$. Equation (2) helps calculating $p(t|\vec{\theta})$ easily, since $p(t|\vec{\theta}) = h(t) \cdot S(t)$, but a little rearrangement is needed to then take its logarithm in a more clever way. </br>
-
-For model 2 we get:
-
-$$p(t|\vec{\theta}) = 0 \qquad t \lt t^*$$
-
-$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[\exp [\omega _1 (t - t^*)] + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1 \Big]\Bigg) \cdot$$
-
-$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - \hat{t})] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq t^*$$
-
-When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
-
-$$p(t,\alpha, k|\vec{\theta}) =  p(t|\alpha, k, \vec{\theta}) \cdot p(k|\vec{\theta}) \cdot p(\alpha|\vec{\theta}) =  $$
-
-$$ = p(t|\alpha, k, u, v, \omega_2) \cdot \text{Gamma}(\alpha|a,b) \cdot \text{Beta}(k|c,d)$$
-
-This factorization reflects the fact that the PDF for $t$ depends also on the random variables $\alpha$ and $k$ while the PDFs for $\alpha$ and $k$ are independent and so $p(\alpha|k, \vec{\theta})$ factorizes directly into a Gamma and Beta distributions, with parameters respectively $(\text{shape}, \text{scale}) = (a,b)$ and $(\text{shape1}, \text{shape2}) = (c,d)$ .
+### Inference on synthetic data <a name="synthinf"></a>
+In order to become proficient in the use of ``EnsambleSampler`` we first exploited it to infer the model parameters from the synthetic data. This is useful since we can have a solid grasp in the outcome, and so it is possible to fix bugs and errors easily. Once this step is properly completed, switching to real data is straigthforward since the code is already implemented. Once we have instantiated the ``EnsambleSampler`` method we can use its ``run_mcmc`` method to generate the chain of the samples of the posterior. In the following we report the plots of the marginalized posterior for each parameter. 
