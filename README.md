@@ -176,11 +176,23 @@ $$S(t) = 1 \qquad t \lt \hat{t} \tag{26a}$$
 
 $$S(t) = \exp \bigg(\frac{\omega_2}{(u+v)} [- \frac{m_0}{\alpha} \big(e ^ {\alpha t}-e^{\alpha \hat{t}}) + m_0 \big (t-\hat{t}) - v \big(t-\hat{t})]\bigg) \qquad t \geq \hat{t} \tag{26b}$$
 
+Here we have 7 parameters: a and b define the values of the growth rate (parameter $\omega_1$ in the previous models) so we expect a*b to represents the values of the growth rates in the real data. In the same way c, d are the parameters that define the division ratio. $\omega_2$, u, v have the same meaning of before.
+
+The resulting pdf is:
+
+$$p(t) = -S(t)\cdot \frac{\omega_2}{u+v} \cdot (-m_0 e^{\alpha t}+m_0-v) $$
+
 
 ### Derivation of the PDFs <a name="pdfs"></a>
 
 We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\theta})$ for each model, i.e. the PDF associated with the stochastic variables that characterize each model. From the previous sections we know that for models 1, 1.2 and 2 the only random variable is the lifespan $t$ of the microbe, and the probability distribution for $t$ is $p(t|\vec{\theta}) = -\dot{S}(t)$, where the minus sign is due to the fact that $S(t)$ is a survival probability and so dispalys a monothonic decreasing behaviour as a function of $t$. Equation (2) helps calculating $p(t|\vec{\theta})$ easily, since $p(t|\vec{\theta}) = h(t) \cdot S(t)$, but a little rearrangement is needed to then take its logarithm in a more clever way. </br>
 
+
+For model 1 we get:
+
+$$p(t|\vec{\theta}) = \Bigg(w_2 - \frac{u w_2 -  w_2 e^{t w_1} (m_0+ u)}{v } \Bigg)\exp \Bigg( \frac{w_2 (m_0 + u)}{v w_1} \Bigg) \cdot $$
+
+$$\cdot \exp \Bigg( -t w_2- \frac{w_2 e^{t w_1} (m_0 + u) - t u w_1 w_2}{v w_1} \Bigg) $$
 
 For model 1.2 we get:
 $$p(t|\vec{\theta}) = 0 \qquad t \lt \hat{t}$$
@@ -217,6 +229,7 @@ Now that we have fully outlined the main characteristics of our models it is pos
     <!-- ![image info](images/s_model2.png) -->
     <img src = '/images/model2_synth_functions.png' />
     <img src = '/images/model2_synth_lineage.png' />
+    <img src='/images/model3_synth.png' />
 </p>
 
 ## Methods <a name="methods"></a>
@@ -259,5 +272,6 @@ Once we have instantiated the ``EnsambleSampler`` method we can use its ``run_mc
 In order to become proficient in the use of ``EnsambleSampler`` we first exploited it to infer the model parameters from the synthetic data. This is useful since we can have a solid grasp in the outcome, and so it is possible to fix bugs and errors easily. Once this step is properly completed, switching to real data is straigthforward since the code is already implemented. To see the results of this section one can check the notebooks named ``project_model**.ipynb``.
 
 
-### Inference on real data <a name="realinf"></a>
-Once made sure that the inference worked well on synthetic data we switched to considering real data. The datasets used in this work are [*Tanouchi25c*](https://doi.org/10.1038/sdata.2017.36), [*Tanouchi37c*](https://doi.org/10.1038/sdata.2017.36) and [*Susman18*](https://www.pnas.org/doi/full/10.1073/pnas.1615526115). These datasets contain long-term, single-cell measurements of *Escherichia coli* cultures grown in different conditions. Each record contains ready-to-use values on the initial length, final length, lifespan, growth rate and division ratio of the microbe. Records are organized into *lineages*, namely groups of records associated to cells that share the same parent. This is an important detail because in order to keep track of the aforementioned quantities we have to make sure that they refer to the same lineage. Thus we have performed the inference lineage by lineage. To see the results of this section one can check the notebooks named ``project_model**.ipynb``.
+### Inference on real data <a name="synthinf"></a>
+Once made sure that the inference worked well on synthetic data we switched to considering real data. The datasets used in this work are [*Tanouchi25c*](https://doi.org/10.1038/sdata.2017.36), [*Tanouchi37c*](https://doi.org/10.1038/sdata.2017.36) and [*Susman18*](https://www.pnas.org/doi/full/10.1073/pnas.1615526115). These datasets contain long-term, single-cell measurements of *Escherichia coli* cultures grown in different conditions. Each record contains ready-to-use values on the initial length, final length, lifespan, growth rate and division ratio of the microbe. Records are organized into *lineages*, namely groups of records associated to cells that share the same parent. This is an important detail because in order to keep track of the aforementioned quantities we have to make sure that they refer to the same lineage. Thus we have performed the inference lineage by lineage.
+For model 3 with the results of the emcee we manage to analyze more deeply the final parameters. First, we check that the parameters of the gamma function (a,b) and the beta function (c,d) have values that represent the distribution in the real data of growth rate and division ratio respectively. After that we also look at the ratio of the frequencies $\frac{\omega_2}{\omega_1}$ and of $\frac{u}{v}$, which we expect to be near one (but smaller than one). At the end we also look at the correlations between the variables (division times, growth rates, division ratios) to eventually notice some possible improvements in the model.
