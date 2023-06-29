@@ -227,8 +227,7 @@ Now that we have fully outlined the main characteristics of our models it is pos
     <!-- ![image info](images/s_model2.png) -->
     <img src = '/images/model2_synth_functions.png' />
     <img src = '/images/model2_synth_lineage.png' />
-    <img src = '/images/model3_synth_lineage.png' />
-    <img src = '/images/model3_synth_lineage.png' />
+    <img src='/images/model3_synth.png' />
 </p>
 
 ## Methods <a name="methods"></a>
