@@ -35,7 +35,7 @@ $$\frac{\dot{S}(t)}{S(t)} = - h(\vec{x}(t)) \tag{2}$$
 where $h(\vec{x})$ is a generic function of the dynamic variables. Since $S(t)$ is a (sort of) cumulative distribudion function then $\dot{S}(t)$ is a probability distribution, and so $t \sim \dot{S}(t)$, with $t \geq 0$, represents, in theory, a possibile lifespan of the cell. This is a key concept because, for example, by collecting data samples of the microbes lifespans we can infer the parameters that describe $\dot{S}(t)$, which are also the parameters that describe $\vec{x}(t)$, allowing us to validate our models. <br>
 Next we are going to showcase the models considered for the Bayesian inference through the project. 
 
-### Model 1 <a name="model1"></a>
+### Model 1.1 <a name="model1"></a>
 This first model is very basic and aims to get the essential features that a good model shoud embed to correctly describe the phenomenon we are facing. This model is single-traited, namely
 
 $$\vec{x} \equiv x = m$$
@@ -172,7 +172,11 @@ and then integrate (15), obtaining
 
 $$S(t) = 1 \qquad t \lt \hat{t} \tag{26a}$$
 
-$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-\hat{t})}\big) + \alpha (t-\hat{t}) (m_0 - v)]\bigg) \qquad t \geq t* \tag{26b}$$
+$$S(t) = \exp \bigg(\frac{\omega_2}{(u+v)} [- \frac{m_0}{\alpha} \big(e ^ {\alpha t}-e^{\alpha \hat{t}}) + m_0 \big (t-\hat{t}) - v \big(t-\hat{t})]\bigg) \qquad t \geq \hat{t} \tag{26b}$$
+
+The resulting pdf is:
+
+$$p(t) = -S(t)\cdot \frac{\omega_2}{u+v} \cdot (-m_0 e^{\alpha t}+m_0-v) $$
 
 
 ### Derivation of the PDFs <a name="pdfs"></a>
