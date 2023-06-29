@@ -278,8 +278,8 @@ class Model1_2(GenericModel):
 
             th = np.log(u / m) / w1
             if t < th:
-                res[i] = -np.inf
-                return res
+                res[i] = np.log(1e-4)
+                # return res
             else:
                 piece = -w2 * m / ((u + v) * w1) * (np.exp(w1 * t) - np.exp(w1 * th) + w1 * v * (t - th) / m)
                 final = (-np.exp(piece) * (-w2 * m / (w1 * (u + v))) * (np.exp(w1 * t) * w1 + v * w1 / m))
