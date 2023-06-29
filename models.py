@@ -370,17 +370,18 @@ class Model2(GenericModel):
         th = (1 / w1) * np.log((u / m0) + 1)
         mask = t >= th
 
-        if th > 0:
-            t = t - th
+        # if th > 0:
+        #     t = t - th
         #################################################
         # factor = - (w2 ** 2 * m0) / (w1 ** 2 * (u + v))
         # term1 = np.exp(w1 * t[mask]) - 1
         # term2 = w1 * t[mask] * ((v * w1) / (w2 * m0) - 1)
         # res[mask] = np.exp(factor * (term1 + term2))
         factor = - (w2 * m0) / (w1 * (u + v))
-        term1 = np.exp(w1 * t[mask]) - 1
-        term2 = w1 * t[mask] * ((v / m0) - 1)
-        res[mask] = np.exp(factor * (term1 + term2))
+        term1 = np.exp(w1 * t[mask]) - np.exp(w1 * th)
+        term2 = - w1 * (t[mask] - th)
+        term3 = (w1 * v / m0) * (t[mask] - th)
+        res[mask] = np.exp(factor * (term1 + term2 + term3))
         return res
 
     def pdf(self, t):
@@ -391,15 +392,17 @@ class Model2(GenericModel):
         th = (1 / w1) * np.log((u / m0) + 1)
 
         mask = t >= th
-        t = np.where((th > 0) & mask, t - th, t)
+        # t = np.where((th > 0) & mask, t - th, t)
 
         ################################################
         # factor = ((w2 ** 2) * m0) / ((w1 ** 2) * (u + v))
         # term1 = np.exp(w1 * t) - 1
         # term2 = w1 * t * (v * w1 / (w2 * m0) - 1)
         factor = - (w2 * m0) / (w1 * (u + v))
-        term1 = np.exp(w1 * t) - 1
-        term2 = w1 * t * ((v / m0) - 1)
+        term1 = np.exp(w1 * t) - np.exp(w1 * th)
+        term2 = - w1 * (t - th)
+        term3 = (w1 * v / m0) * (t - th)
+        S_term = np.exp(factor * (term1 + term2 + term3))
 
         # h = factor * (np.exp(w1 * t) * w1 + v * w1 / m0)
         #######################################
@@ -409,7 +412,7 @@ class Model2(GenericModel):
 
         ##########################################################
         # res[mask] = (np.exp(-factor * (term1 + term2)) * h)[mask]
-        res[mask] = (np.exp(factor * (term1 + term2)) * h)[mask]
+        res[mask] = (S_term * h)[mask]
         return res
 
     # def log_pdf(self, params, life_spans, m0s):
@@ -439,7 +442,7 @@ class Model2(GenericModel):
         # for t, m0 in zip(life_spans, m0s):
 
         w1, w2, u, v = params
-        t_star = (1 / w1) * np.log((w1 * u) / (w2 * m0s) + 1)  # if m0 is a vector then it's a vector
+        t_star = (1 / w1) * np.log((u / m0s) + 1)  # if m0 is a vector then it's a vector
 
         out = np.zeros(len(life_spans))
         for i, (s, m) in enumerate(zip(life_spans, m0s)):
@@ -456,13 +459,17 @@ class Model2(GenericModel):
                 # p = (w2 * m / w1) * (np.exp(w1 * (s - t_star[i])) - 1)
                 # # out[i] = np.log(sur) + np.log(w2) + np.log(p + v) - np.log(u + v)
                 # out[i] = sur + np.log(w2) + np.log(p + v) - np.log(u + v)
-                add1 = np.log(w2 / (u + v))
-                factor = - (w2 * m) / (w1 * (u + v))
-                term1 = np.exp(w1 * (s - t_star[i])) - 1
-                term2 = w1 * (s - t_star[i]) * ((v / m) - 1)
-                add2 = factor * (term1 + term2)
-                add3 = np.log(v + m * (np.exp(w1 * (s - t_star[i])) - 1))
-                out[i] = add1 + add2 + add3
+                # add1 = np.log(w2 /(w1 * (u + v)))
+                # factor = - (w2 * m) / (w1 * (u + v))
+                # term1 = np.exp(w1 * (s - t_star[i])) - 1
+                # term2 = w1 * (s - t_star[i]) * ((v / m) - 1)
+                # add2 = factor * (term1 + term2)
+                # add3 = np.log(v + m * (np.exp(w1 * (s - t_star[i])) - 1))
+                factor = w2 / (w1 * (u + v))
+                term1 = - factor * (m * np.exp(s * w1) - m * s * w1 + s * v * w1)
+                term2 = factor * (v * w1 * t_star[i] - m * w1 * t_star[i] + u + m)
+                term3 = np.log(v * w1 - m * w1 + m * w1 * np.exp(s * w1))
+                out[i] = np.log(factor) + term1 + term2 + term3
 
         return out
 
@@ -476,7 +483,7 @@ class Model2(GenericModel):
 
     def log_prior(self, params):
         w1, w2, u, v = params
-        if w1 > 0 and w2 > 0 and v > u > 0 and 0 < v <= 30:
+        if 6 > w1 > 0 and 10 > w2 > 0 and v > u > 0 and 0 < v <= 30:
             return 0.0
         else:
             return -np.inf
