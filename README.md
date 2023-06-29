@@ -84,16 +84,16 @@ $$m(t) = m_0 e ^ {\omega_1 t} \tag{11}$$
 
 and thus we can define the following quantity
 
-$$t^* \equiv \frac{1}{w_1} \log \Big(\frac{u}{m_0}\Big)$$
+$$\hat{t} \equiv \frac{1}{w_1} \log \Big(\frac{u}{m_0}\Big)$$
 
 which represents the amount of time elapsed since the division of the mother cell in order for $h(m)$ to become non-zero. Now we can integrate eq. (), obtaining 
 
-$$S(t) = 0 \qquad t \lt t^* \tag{12a}$$
+$$S(t) = 0 \qquad t \lt \hat{t} \tag{12a}$$
 
-$$S(t) = \exp \Big(- \frac{\omega_2}{\omega_1(u+v)}[e ^ {\omega_1 t} - \omega_1 v t  - 1]\Big) \qquad t \geq t^* \tag{12b}$$
+$$S(t) = \exp \Big(- \frac{\omega_2}{\omega_1(u+v)}[e ^ {\omega_1 t} - \omega_1 v t  - 1]\Big) \qquad t \geq \hat{t} \tag{12b}$$
 
 
-Since $m_0$ could be smaller than $u$, then, in those cases, $t^* <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (12b). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervations of this behaviour has been made on microbes. 
+Since $m_0$ could be smaller than $u$, then, in those cases, $\hat{t} <0$, meaning that $h(m)$ is non-zero since the start of the daughter microbe's life and $S(t)$ has only the expression reported in eq. (12b). This means that $t=0$ is a valid sample from $\dot{S}(t)%$ and thus istantaneous division is allowed by this model. However, this feature is not realistic, because no obervations of this behaviour has been made on microbes. 
 
 ### Model 2 <a name="model2"></a>
 Model 2 aims at correcting the istantaneous division problem that arises in Model 1.2. To do so we need to introduce another dynamic variable, $p$, which represents the amount of a fictious protein that needs to be accumulated over a certain threshold quantity in order to allow the division process. Thus in this case we have that
@@ -127,7 +127,7 @@ $$p(t) = m_0 (e ^ {w_1 t} - 1) \tag{18}$$
 
 Thanks to eq. (18) we can look at eq. (15) and define
 
-$$t^* \equiv \frac{1}{\omega_1} \log \Big(\frac{u}{m_0} + 1\Big) \tag{19}$$
+$$\hat{t} \equiv \frac{1}{\omega_1} \log \Big(\frac{u}{m_0} + 1\Big) \tag{19}$$
 
 which is always a positive quantity. Thus by integrating (15) we get
 
@@ -170,9 +170,9 @@ $$t ^ * \equiv \frac{1}{\alpha} \log\Big(\frac{u}{m_0} + 1\Big) \tag{25}$$
 
 and then integrate (15), obtaining
 
-$$S(t) = 1 \qquad t \lt t^* \tag{26a}$$
+$$S(t) = 1 \qquad t \lt \hat{t} \tag{26a}$$
 
-$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-t^*)}\big) + \alpha (t-t^*) (m_0 - v)]\bigg) \qquad t \geq t* \tag{26b}$$
+$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-\hat{t})}\big) + \alpha (t-\hat{t}) (m_0 - v)]\bigg) \qquad t \geq t* \tag{26b}$$
 
 
 ### Derivation of the PDFs <a name="pdfs"></a>
@@ -181,11 +181,11 @@ We are left with the derivation of the explicit formula of $p(\vec{x}_i|\vec{\th
 
 For model 2 we get:
 
-$$p(t|\vec{\theta}) = 0 \qquad t \lt t^*$$
+$$p(t|\vec{\theta}) = 0 \qquad t \lt \hat{t}$$
 
-$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[\exp [\omega _1 (t - t^*)] + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1 \Big]\Bigg) \cdot$$
+$$p(t|\vec{\theta}) = \frac{\omega _2 m_0}{\omega _1 (u + v)} \exp \Bigg(- \frac{\omega _2 m_0}{\omega _1 (u + v)} \Big[\exp [\omega _1 (t - \hat{t})] + \omega _1 (t - \hat{t}) \Big(\frac{v}{m_0} - 1\Big) - 1 \Big]\Bigg) \cdot$$
 
-$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - \hat{t})] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq t^*$$
+$$\cdot \Bigg(\omega _1 \exp[\omega _1 (t - \hat{t})] + \omega _1 \Big(\frac{v}{m_0} - 1\Big)\Bigg) \qquad t \geq \hat{t}$$
 
 When dealing with model 3, instead, the situation is slightly more complicated since the stochastic variable is no longer only $t$, but also the growth rate $\alpha$ and the division rate $k$. This means that rather than having a univariate PDF we have a joint PDF:
 
