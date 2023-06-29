@@ -172,7 +172,9 @@ and then integrate (15), obtaining
 
 $$S(t) = 1 \qquad t \lt \hat{t} \tag{26a}$$
 
-$$S(t) = \exp \bigg(\frac{\omega_2}{\alpha(u+v)} [m_0 \big(1 - e ^ {\alpha (t-\hat{t})}\big) + \alpha (t-\hat{t}) (m_0 - v)]\bigg) \qquad t \geq t* \tag{26b}$$
+$$S(t) = \exp \bigg(\frac{\omega_2}{(u+v)} [- \frac{m_0}{\alpha} \big(e ^ {\alpha t}-e^{\alpha \hat{t}}) + m_0 \big (t-\hat{t}) - v \big(t-\hat{t})]\bigg) \qquad t \geq t* \tag{26b}$$
+
+$$p(t) = -S(t)\cdot \frac{\omega_2}{u+v} \cdot (-m_0 e^{\alpha t}+m_0-v) $$
 
 
 ### Derivation of the PDFs <a name="pdfs"></a>
