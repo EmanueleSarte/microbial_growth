@@ -56,7 +56,7 @@ $$\mathcal{J}(m|m') = \delta \Big(m - \frac{m'}{2}\Big) \tag{6}$$
 
 thus
 
-$$m_{after} = \Braket{\mathcal{J}(m|m'), m} = \int m \, \delta \Big(m - \frac{m'}{2}\Big) dm = \frac{m'}{2}$$
+$$m_{after} = \Braket{\mathcal{J}(m|m'), m} = \int m \delta \Big(m - \frac{m'}{2}\Big) dm = \frac{m'}{2}$$
 
 By integrating eq. (4) we obtain
 
@@ -121,7 +121,7 @@ and the division equation becomes
 
 $$\mathcal{J}(m,p | m',p') = \delta(p)\delta\Big(m - \frac{m'}{2}\Big) \tag{16}$$
 
-meaning that the protein amount drops to zero at each cell division, while the microbe size after the division becomes half the one reached at the end of the previous life cycle. By integrating (3) we get
+meaning that the protein amount drops to zero at each cell division, while the microbe size after the division becomes half the one reached at the end of the previous life cycle. By integrating (13) we get
 
 $$m(t) = m_0 e ^ {w_1 t} \tag{17}$$
 
